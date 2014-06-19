@@ -32,9 +32,9 @@ describe "StaticPages" do
     end 
   end 
   describe "Contacts page" do
-    it "should have content 'contacts to me'" do
+    it "should have content 'to contact me'" do
       visit '/static_pages/contacts';
-      expect(page).to have_content('contacts to me');
+      expect(page).to have_content('to contact me');
     end
     it "should have title 'Tweets | Contacts'" do
       visit '/static_pages/contacts';
