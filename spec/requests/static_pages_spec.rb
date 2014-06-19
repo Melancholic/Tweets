@@ -31,6 +31,17 @@ describe "StaticPages" do
       expect(page).to have_title('Tweets | About');
     end 
   end 
+  describe "Contacts page" do
+    it "should have content 'contacts to me'" do
+      visit '/static_pages/about';
+      expect(page).to have_content('contacts to me');
+    end
+    it "should have title 'Tweets | Contacts'" do
+      visit '/static_pages/about';
+      expect(page).to have_title('Tweets | Contacts');
+    end 
+  end 
+
 
 
 end
