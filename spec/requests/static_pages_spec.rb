@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "StaticPages" do
+  let(:base_title){ "Tweets" }
   describe "Home page" do
     it "should have content 'home page'" do
       visit '/static_pages/home';
@@ -8,7 +9,7 @@ describe "StaticPages" do
     end
     it "should have title 'Tweets | Home'" do
       visit '/static_pages/home';
-      expect(page).to have_title('Tweets | Home');
+      expect(page).to have_title("#{base_title} | Home");
     end
   end
   describe "Help page" do
@@ -18,7 +19,7 @@ describe "StaticPages" do
     end
     it "should have title 'Tweets | Help'" do
       visit '/static_pages/help';
-      expect(page).to have_title('Tweets | Help');
+      expect(page).to have_title("#{base_title} | Help");
     end 
   end 
   describe "About page" do
@@ -28,7 +29,7 @@ describe "StaticPages" do
     end
     it "should have title 'Tweets | About'" do
       visit '/static_pages/about';
-      expect(page).to have_title('Tweets | About');
+      expect(page).to have_title("#{base_title} | About");
     end 
   end 
   describe "Contacts page" do
@@ -38,7 +39,7 @@ describe "StaticPages" do
     end
     it "should have title 'Tweets | Contacts'" do
       visit '/static_pages/contacts';
-      expect(page).to have_title('Tweets | Contacts');
+      expect(page).to have_title("#{base_title} | Contacts");
     end 
   end 
 
