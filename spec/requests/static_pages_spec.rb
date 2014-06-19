@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe "StaticPages" do
   describe "Home page" do
-    it "should have content 'Tweets'" do
+    it "should have content 'home page'" do
       visit '/static_pages/home';
-      expect(page).to have_content('Tweets');
+      expect(page).to have_content('home page');
     end
     it "should have title 'Tweets | Home'" do
       visit '/static_pages/home';
