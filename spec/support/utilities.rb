@@ -1,1 +1,1 @@
-include ApplicationHelper;
+include ApplicationHelper
