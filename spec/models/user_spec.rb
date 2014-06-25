@@ -6,6 +6,8 @@ describe User do
   #тест наличия
   it{ should respond_to(:name) }
   it{ should respond_to(:email) }
+  it{ should respond_to(:password_digest) }
+  
   #тест валидности
   it { should be_valid }
   describe "name is null: " do
