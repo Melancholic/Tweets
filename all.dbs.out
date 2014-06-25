@@ -1,0 +1,189 @@
+--
+-- PostgreSQL database cluster dump
+--
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE alka;
+ALTER ROLE alka WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION PASSWORD 'md5786e173d602ac52720fd16e59fc35dda';
+CREATE ROLE chaters_usr;
+ALTER ROLE chaters_usr WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION PASSWORD 'md5b40f3306845b5eb56ed06b105bb06753';
+CREATE ROLE postgres;
+ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION;
+CREATE ROLE ruby_usr;
+ALTER ROLE ruby_usr WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION PASSWORD 'md52b61b91e2913e905db37a5e747f9fee6';
+CREATE ROLE sosnov;
+ALTER ROLE sosnov WITH SUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION PASSWORD 'md5b6c65d5140dbeb2404026c1cbdad29c6';
+CREATE ROLE tomcat;
+ALTER ROLE tomcat WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION PASSWORD 'md572092710adb3231dd008f816cc171156';
+
+
+
+
+
+
+--
+-- Database creation
+--
+
+CREATE DATABASE alla WITH TEMPLATE = template0 OWNER = sosnov;
+CREATE DATABASE chatersdb WITH TEMPLATE = template0 OWNER = sosnov;
+CREATE DATABASE ruby_tweets WITH TEMPLATE = template0 OWNER = sosnov;
+CREATE DATABASE sosnov WITH TEMPLATE = template0 OWNER = sosnov;
+CREATE DATABASE "srvlt-counter" WITH TEMPLATE = template0 OWNER = sosnov;
+CREATE DATABASE srvlts WITH TEMPLATE = template0 OWNER = sosnov;
+CREATE DATABASE "table" WITH TEMPLATE = template0 OWNER = postgres;
+REVOKE ALL ON DATABASE template1 FROM PUBLIC;
+REVOKE ALL ON DATABASE template1 FROM postgres;
+GRANT ALL ON DATABASE template1 TO postgres;
+GRANT CONNECT ON DATABASE template1 TO PUBLIC;
+CREATE DATABASE test WITH TEMPLATE = template0 OWNER = sosnov;
+
+
+\connect alla
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: ww_trg_id_func(); Type: FUNCTION; Schema: public; Owner: alka
+--
+
+CREATE FUNCTION ww_trg_id_func() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+NEW.ID:=nextval('ww_ID_seq');
+return NEW;
+END;
+ $$;
+
+
+ALTER FUNCTION public.ww_trg_id_func() OWNER TO alka;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: ww; Type: TABLE; Schema: public; Owner: alka; Tablespace: 
+--
+
+CREATE TABLE ww (
+    id bigint NOT NULL,
+    a text
+);
+
+
+ALTER TABLE public.ww OWNER TO alka;
+
+--
+-- Name: ww_id_seq; Type: SEQUENCE; Schema: public; Owner: alka
+--
+
+CREATE SEQUENCE ww_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ww_id_seq OWNER TO alka;
+
+--
+-- Name: ww_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alka
+--
+
+ALTER SEQUENCE ww_id_seq OWNED BY ww.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: alka
+--
+
+ALTER TABLE ONLY ww ALTER COLUMN id SET DEFAULT nextval('ww_id_seq'::regclass);
+
+
+--
+-- Data for Name: ww; Type: TABLE DATA; Schema: public; Owner: alka
+--
+
+COPY ww (id, a) FROM stdin;
+1	qwe
+2	\N
+\.
+
+
+--
+-- Name: ww_id_seq; Type: SEQUENCE SET; Schema: public; Owner: alka
+--
+
+SELECT pg_catalog.setval('ww_id_seq', 2, true);
+
+
+--
+-- Name: ww_pkey; Type: CONSTRAINT; Schema: public; Owner: alka; Tablespace: 
+--
+
+ALTER TABLE ONLY ww
+    ADD CONSTRAINT ww_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ww_trg_id; Type: TRIGGER; Schema: public; Owner: alka
+--
+
+CREATE TRIGGER ww_trg_id BEFORE INSERT ON ww FOR EACH ROW EXECUTE PROCEDURE ww_trg_id_func();
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect chatersdb
+
+SET default_transaction_read_only = off;
+
