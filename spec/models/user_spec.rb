@@ -54,7 +54,8 @@ describe User do
                 corrA.ect@c&&sa.ru
                 corr/ect@cs.ru
                 corr-ect|76cs.ru
-                corr-ectqcs.ru]
+                corr-ectqcas.ru
+                asdasd@aa..ru]
       emails.each do |inv_ems|
         @user.email = inv_ems;
         expect(@user).not_to be_valid
@@ -67,8 +68,9 @@ describe User do
                 corr.ect@cs.ru
                 cAF_fwe-qwet@cs.ru
                 cor+r_ect@cs.ru
-                corr.12@ect.76cs.ru
-                corr-ect@qcs.ru]
+                corr.123@ec12.t12.ru
+                corr-ect@qcs.ru
+                assdd@asd.af]
       emails.each do |inv_ems|
         @user.email = inv_ems;
         expect(@user).to be_valid

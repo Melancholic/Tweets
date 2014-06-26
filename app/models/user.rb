@@ -1,4 +1,4 @@
-VALID_EMAIL_REGEX =  /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+VALID_EMAIL_REGEX =  /\A[\w+\-.0-9]+@([a-z\d\-]+(\.[a-z\d]+)*\.[a-z]+)+\z/i
 VALID_NAME_REGEX = /\A[a-z \d \- \_]*[a-z \- \_]+[a-z \d \- \_]*\z/i
 class User < ActiveRecord::Base
   validates(:name, presence: true, length:{maximum:15,minimum:3},format: {with: VALID_NAME_REGEX});
@@ -8,5 +8,5 @@ class User < ActiveRecord::Base
     self.email=email.downcase;
   }
   has_secure_password();
-  validates(:password,length:{minimum:5});
+  validates(:password,length:{minimum:5}, confirmation: true, on: :create);
 end
