@@ -1,9 +1,28 @@
 <% provide(:title,'Sign Up') %> 
 <div class="center hero-unit">
-  <h1>Sign Up, please!</h1>
-  <h2>
-  This is a sign up page.
-  </h2>
+  <h1>Sign Up, please!</h1>  
+</div>
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@user) do |f| %>
+      <%= render('shared/error_msgs') %>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+
+
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+
+      <%= f.label :password_confirmation, "Confirmation" %>
+      <%= f.password_field  :password_confirmation %>
+      <br>
+      <%= f.submit("Create", class: "btn btn-large btn-primary") %>
+    <% end %>
+
+  </div>
 </div>
 
 
