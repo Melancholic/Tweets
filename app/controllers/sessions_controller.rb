@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
     user= User.find_by(email: params[:session][:email].downcase);
     if(user && user.authenticate(params[:session][:password]))
       #sign user
+      sign_in(user);
       flash.now[:succes]="#{user.name}, welcome to Tweets!";
       redirect_to(user);
 

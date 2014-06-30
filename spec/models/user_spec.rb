@@ -135,4 +135,11 @@ describe User do
     before{@user.password = @user.password_confirmation="xx"}
     it { should_not be_valid }
   end
+
+#Тесты для сессии
+    describe "remember token is valid" do
+      #it {should respond_to (:remember_token)}
+      before {@user.save}
+        its(:remember_token) {should_not be_blank}
+    end
 end
