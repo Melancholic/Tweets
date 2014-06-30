@@ -1,0 +1,26 @@
+<% provide(:title,'Sign In') %> 
+<div class="center hero-unit">
+  <h1>Sign In, please!</h1>  
+</div>
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(:session, url: sessions_path) do |f| %>
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+
+
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+
+      <br>
+      <%= f.submit("Create", class: "btn btn-large btn-primary") %>
+    <% end %>
+    <br>
+    <p>
+    Create <%= link_to("new account.",signup_path) %>
+    </p>
+
+  </div>
+</div>
+
+
