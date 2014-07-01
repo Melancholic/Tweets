@@ -37,7 +37,7 @@ describe "UsersPages" do
     describe "with valid data" do
       before do
         fill_in "Name", with: "Example user";
-        fill_in "Email", with: "examle@mail.com";
+        fill_in "Email", with: 'example@mail.com';
         fill_in "Password", with: "123456";
         fill_in "Confirmation", with: "123456";
       end
@@ -46,9 +46,11 @@ describe "UsersPages" do
       end
       describe "after signup" do
         before {click_button submit}
-        it{should have_title(full_title("Example user"))};
-        it{should have_content("Welcome to Tweets!")};
-        it{should have_selector('div.alert.alert-success')};
+        let(:usr){User.find_by(email: 'example@mail.com')}
+        it{should have_link("Sign Out") }
+        it{should have_title(full_title(usr.name))}
+        it{should have_content("Welcome to Tweets!")}
+        it{should have_selector('div.alert.alert-success')}
       end
     end
   end
