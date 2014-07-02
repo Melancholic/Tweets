@@ -53,6 +53,22 @@ describe "UsersPages" do
         it{should have_selector('div.alert.alert-success')}
       end
     end
+
+# Тесты  обновления пользователей
+    describe 'edit profile ' do
+      let(:user) {FactoryGirl.create(:user)}
+      before{visit edit_user_path(user)}
+
+      describe 'at page' do 
+        it{should have_content('Update your profile')}
+        it{should have_title(full_title("Edit profile"))}
+        it{should have_link('Change Gravatar',href:'http://gravatar.com/emails')}
+      end
+      describe 'with invalid data' do
+        before{click_button "Save"}
+        it { should have_content('error')}
+      end
+    end
   end
 end
 
