@@ -21,7 +21,8 @@ subject {page}
       it { should have_title(full_title(user.name)) };
       it { should have_link( 'Profile', href: user_path(user)) };
       it { should have_link('Sign Out', href: signout_path)};
-      it {should  have_link('Settings', href: edit_user_path(user)) }
+      it {should  have_link('Settings', href: edit_user_path(user))}
+      it {should  have_link('Users', href: users_path)}
       it { should_not have_link('Sign In', href: signin_path) };
       describe "followed by signout" do
         before{ click_link("Sign Out") }
@@ -58,6 +59,13 @@ subject {page}
           describe "send to update action" do
             before{patch user_path(user) }
             specify {expect(response).to redirect_to(signin_path) }
+          end
+
+        #Тест на недоступносnь спиcка пользователей
+        #анонимусам
+          describe " visiting te Users index page" do
+            before{visit users_path}
+            it{should have_title(full_title('Sign In'))};
           end
         end
       end

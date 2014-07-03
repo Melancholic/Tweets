@@ -2,6 +2,25 @@ require 'spec_helper'
 
 describe "UsersPages" do
   subject{ page }
+  #Тесты страныцы пользователей User#Index
+  
+  describe "Index" do
+    before do
+      sign_in FactoryGirl.create(:user,name: "Vanya", email: "vany@exmpl.dom");
+      sign_in FactoryGirl.create(:user, name: "Antosha",email: "antosh@exmpl.com");
+      sign_in FactoryGirl.create(:user, name: "Maria",email: "marie@exmpl.com");
+      visit users_path
+    end
+
+    it{should have_title('Users')}
+    it{should have_content(' All users')}
+    it 'should list each user' do
+      User.all.each do |usr|
+        expect(page).to have_selector('li',text: usr.name)
+      end
+    end
+  end
+
   describe "Sign Up page" do
   before { visit signup_path }
     it { should have_content('Sign Up') }

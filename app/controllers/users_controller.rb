@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   #for not signed users
-  before_action :signed_in_user, only:[:edit,:update]
+  before_action :signed_in_user, only:[:index,:edit,:update]
   #for signied users
   before_action :correct_user, only:[:edit,:update]
 
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def index()
-    @usrs =  User.all();
+    @users =  User.all.sort_by { |s| s.name };
   end
 
   def create
@@ -42,6 +42,8 @@ class UsersController < ApplicationController
         render 'edit';
     end
   end
+
+
 private
 
   def user_params
