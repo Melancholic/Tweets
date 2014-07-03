@@ -36,10 +36,7 @@ describe "UsersPages" do
 #валидные данные
     describe "with valid data" do
       before do
-        fill_in "Name", with: "Example user";
-        fill_in "Email", with: 'example@mail.com';
-        fill_in "Password", with: "123456";
-        fill_in "Confirmation", with: "123456";
+        setValidUsersData(user)
       end
       it "should create a user" do
         expect {click_button(submit)}.to change(User, :count).by(1)
@@ -57,7 +54,10 @@ describe "UsersPages" do
 # Тесты  обновления пользователей
     describe 'edit profile ' do
       let(:user) {FactoryGirl.create(:user)}
-      before{visit edit_user_path(user)}
+      before do
+      sign_in(user)
+      visit edit_user_path(user)
+      end
 
       describe 'at page' do 
         it{should have_content('Update your profile')}
@@ -65,9 +65,26 @@ describe "UsersPages" do
         it{should have_link('Change Gravatar',href:'http://gravatar.com/emails')}
       end
       describe 'with invalid data' do
-        before{click_button "Save"}
+        before do
+          setInvalidUsersData(user)
+          click_button "Save"
+        end
         it { should have_content('error')}
+        it {should have_content('Update your profile')}
+        it{should have_title(full_title("Edit profile"))}  
+        specify {expect(user.name).not_to eq user.reload.name}
+        specify {expect(user.email).not_to eq user.reload.email} 
       end
+      describe 'with valid data' do
+        before do
+          setValidUsersData(user)
+          click_button "Save"
+        end
+        it {should have_content('Updating your profile is success')}
+        it {should have_selector('div.alert.alert-succes')}
+        specify {expect(user.name).to eq user.reload.name}
+        specify {expect(user.email).to eq user.reload.email} 
+     end
     end
   end
 end

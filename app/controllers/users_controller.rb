@@ -1,4 +1,10 @@
 class UsersController < ApplicationController
+  #for not signed users
+  before_action :signed_in_user, only:[:edit,:update]
+  #for signied users
+  before_action :correct_user, only:[:edit,:update]
+
+
   def new
     @user=User.new();
   end
@@ -22,16 +28,38 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user= User.find(params[:id]);
+    #Has been added in app/helpers/sessions_helper.rb:current_user?(user)
+    #@user= User.find(params[:id]);
   end
   
   def update
-   @user= User.find(params[:id]);
-   redirect_to(@user);
+   #Has been added in app/helpers/sessions_helper.rb:current_user?(user)
+   #@user= User.find(params[:id]);
+   if  (@user.update_attributes(user_params()))
+      flash[:succes] = "Updating your profile is success"
+      redirect_to(@user);
+    else
+        render 'edit';
+    end
   end
 private
 
   def user_params
     params.require(:user).permit(:name,:email,:password, :password_confirmation);
+  end
+
+  #before-filter
+  
+  def signed_in_user
+    if(!signed_in?)
+      save_target_url();
+      redirect_to(signin_url, notice:"Please, sign in!");
+    end
+  end
+  def correct_user
+    @user=User.find(params[:id]);
+    if (!current_user?(@user))
+      redirect_to(root_url);
+    end
   end
 end

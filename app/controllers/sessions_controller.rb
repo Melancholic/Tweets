@@ -7,8 +7,10 @@ class SessionsController < ApplicationController
     if(user && user.authenticate(params[:session][:password]))
       #sign user
       sign_in(user);
+
       flash.now[:succes]="#{user.name}, welcome to Tweets!";
-      redirect_to(user);
+      #redirect_to(user);
+      redirect_to_target_url(user);
 
     else
       #create error msg
