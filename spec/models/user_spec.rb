@@ -10,9 +10,23 @@ describe User do
   it{ should respond_to(:password_digest) }
   it{ should respond_to(:password) }
   it{ should respond_to(:password_confirmation) }
+  it{ should respond_to(:authenticate) }
+  it{ should respond_to(:admin) }
 
+  
+  #Тесты  администратора
+  it{should_not be_admin}
+  describe "admin flag set to 'true'" do
+    before do
+      @user.save!
+      @user.toggle!(:admin)
+    end
+    it{should be_admin}
+  end
+   
   #тест валидности
   it { should be_valid }
+
   describe "name is null: " do
     before{@user.name=" "}
     it {should_not be_valid}
