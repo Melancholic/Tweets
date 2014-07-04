@@ -13,7 +13,8 @@ class UsersController < ApplicationController
   end
 
   def index()
-    @users =  User.all.sort_by { |s| s.name };
+    #@users =  User.all.sort_by { |s| s.name };
+    @users=User.paginate(page: params[:page]);
   end
 
   def create

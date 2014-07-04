@@ -5,22 +5,31 @@ describe "UsersPages" do
   #Тесты страныцы пользователей User#Index
   
   describe "Index" do
+    let (:user){FactoryGirl.create(:user)}
     before do
-      sign_in FactoryGirl.create(:user,name: "Vanya", email: "vany@exmpl.dom");
-      sign_in FactoryGirl.create(:user, name: "Antosha",email: "antosh@exmpl.com");
-      sign_in FactoryGirl.create(:user, name: "Maria",email: "marie@exmpl.com");
+      sign_in user
       visit users_path
     end
 
     it{should have_title('Users')}
     it{should have_content(' All users')}
-    it 'should list each user' do
-      User.all.each do |usr|
-        expect(page).to have_selector('li',text: usr.name)
+
+  #Тесты пагинации
+    describe "pagination" do
+      before(:all){50.times{FactoryGirl.create(:user)}}
+      after(:all) { User.delete_all}
+
+      it { should have_selector('div.pagination') }
+      it{should have_title('Users')}
+
+      it 'should list each user' do
+        User.paginate(page: 1).each do |user|
+          expect(page).to have_selector('li',text: user.name)
+        end
       end
     end
   end
-
+  # Тесты регистрации
   describe "Sign Up page" do
   before { visit signup_path }
     it { should have_content('Sign Up') }
