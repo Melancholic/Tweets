@@ -17,4 +17,5 @@
 .secret
 /config/database.yml
 *~
+users.log 
 /users.log 
