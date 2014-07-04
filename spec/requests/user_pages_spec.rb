@@ -29,6 +29,22 @@ describe "UsersPages" do
       end
     end
   end
+
+  # Тесты удаления администратором
+  describe "as an admin user" do
+    let(:admin) {FactoryGirl.create(:admin)}
+    before do
+      sign_in admin
+      visit users_path
+    end
+    it {should have_link('Delete', href: user_path(User.first))}
+    it "should be  to delete another user" do
+      expect do
+        click_link('Delete', match: :first)
+      end.to change(User, :count).by(-1)
+    end
+    it{should_not have_link('Delete',href:user_path(admin))}
+  end
   # Тесты регистрации
   describe "Sign Up page" do
   before { visit signup_path }

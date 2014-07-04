@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
   #for not signed users
-  before_action :signed_in_user, only:[:index,:edit,:update]
+  before_action :signed_in_user, only:[:index,:edit,:update, :destroy]
   #for signied users
   before_action :correct_user, only:[:edit,:update]
-
+  #for admins
+  before_action :admin_user, only: :destroy
 
   def new
     @user=User.new();
@@ -44,6 +45,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    uname=User.find(params[:id]).name;
+    if(User.find(params[:id]).destroy)
+      flash[:success]="User #{uname} has been deleted!";
+    else
+      flash[:error]="User #{uname} has not been deleted!";
+    end
+    redirect_to(users_url);
+  end
+
 
 private
 
@@ -59,10 +70,15 @@ private
       redirect_to(signin_url, notice:"Please, sign in!");
     end
   end
+
   def correct_user
     @user=User.find(params[:id]);
     if (!current_user?(@user))
       redirect_to(root_url);
     end
+  end
+
+  def admin_user
+    redirect_to(root_url) unless current_user.admin?;
   end
 end
