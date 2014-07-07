@@ -5,7 +5,8 @@ class UsersController < ApplicationController
   before_action :correct_user, only:[:edit,:update]
   #for admins
   before_action :admin_user, only: :destroy
-
+  #for signed for NEW and CREATE
+  before_action :signed_user_to_new, only:[:new, :create]
   def new
     @user=User.new();
   end
@@ -80,5 +81,11 @@ private
 
   def admin_user
     redirect_to(root_url) unless current_user.admin?;
+  end
+  
+  def signed_user_to_new
+    if(!current_user?(@user))
+        redirect_to(root_url);
+    end
   end
 end

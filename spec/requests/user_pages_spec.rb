@@ -129,6 +129,7 @@ describe "UsersPages" do
         specify {expect(user.name).to eq user.reload.name}
         specify {expect(user.email).to eq user.reload.email} 
      end
+     #Тест на запрет установки admin с http запроса
     describe "forbidden attributes" do 
       let(:params) do
         {user:{admin:true, password: user.password, password_confirmation:user.password} }
@@ -139,7 +140,20 @@ describe "UsersPages" do
       end
       specify{expect(user.reload() ).not_to be_admin}
     end
+    
+    # Тест на запрет  к NEW и CREATE  для зарегистрированных пользователей 
+    describe "go to create new account page" do
+      before { visit(new_user_path)}
+      it{should have_title(full_title('Home'))}
+      
+      let(:wrong_usr){FactoryGirl.create(:user,email: "wrong@email.dom")}
+      before{get new_user_path(wrong_usr)}
+      specify{expect(response.body).to match(full_title('Home'))}
+
     end
   end
+end
+
+
 end
 
