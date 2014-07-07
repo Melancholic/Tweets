@@ -31,7 +31,7 @@ subject {page}
     end  
   end
 # Тесты авторизации
-    describe "authorization" do\
+    describe "authorization" do
     # Для незарегистрованных пользователей
       describe "for non-signed-in users" do
         let(:user){FactoryGirl.create(:user)}
@@ -47,8 +47,22 @@ subject {page}
             it "should render the desured protected page" do
               expect(page).to have_title(full_title('Edit profile'))
             end
+
+            describe "when signing in again" do
+              before do
+                click_link("Sign Out")
+                visit signin_path
+                fill_in "Email", with: user.email
+                fill_in "Password", with: user.password
+                click_button "Sign In" 
+              end
+              it "should render the default page" do
+                expect(page).to have_title(full_title(user.name))
+              end
+            end
           end
         end
+        
         describe "in the Users controller" do
           
           describe "visiting the edit page" do
