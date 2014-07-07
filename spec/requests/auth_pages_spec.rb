@@ -61,12 +61,19 @@ subject {page}
             specify {expect(response).to redirect_to(signin_path) }
           end
 
-        #Тест на недоступносnь спиcка пользователей
-        #анонимусам
+        #Тесты на недоступносnь пользовательских ссылок анонимусам
           describe " visiting te Users index page" do
             before{visit users_path}
             it{should have_title(full_title('Sign In'))};
           end
+
+          describe " visit root path " do
+            before {visit root_url}
+              it{should_not have_link("Profile")}
+              it{should_not have_link("Settings")}
+              it{should_not have_link("Sign Out", signout_path)}
+          end
+
         end
       end
     #Для зарегистрированных пользователей
