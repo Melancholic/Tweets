@@ -54,7 +54,7 @@ class UsersController < ApplicationController
       flash[:error]="User #{uname} has not been deleted!";
     end
     redirect_to(users_url);
-  end
+ end
 
 
 private
@@ -80,7 +80,13 @@ private
   end
 
   def admin_user
-    redirect_to(root_url) unless current_user.admin?;
+    if (current_user==User.find(params[:id]))
+       flash[:error]="You has not been deleted!";
+       redirect_to(users_url);
+
+    else
+      redirect_to(root_url) unless current_user.admin?;
+    end
   end
   
   def signed_user_to_new

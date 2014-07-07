@@ -44,6 +44,18 @@ describe "UsersPages" do
       end.to change(User, :count).by(-1)
     end
     it{should_not have_link('Delete',href:user_path(admin))}
+
+    describe "delete self"do
+      it "should be  to delete self from DELETE request" do
+        expect do
+          delete user_path(admin)
+        end.to change(User, :count).by(0)
+      end
+      
+     #it{should have_selector('div.alert.alert-success')}
+     it {should have_title(full_title('Users'))}
+        
+    end
   end
   # Тесты регистрации
   describe "Sign Up page" do
