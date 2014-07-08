@@ -12,7 +12,8 @@ describe User do
   it{ should respond_to(:password_confirmation) }
   it{ should respond_to(:authenticate) }
   it{ should respond_to(:admin) }
-
+  # Тест связи с microposts
+  it{ should respond_to(:microposts)}
   
   #Тесты  администратора
   it{should_not be_admin}
@@ -155,5 +156,29 @@ describe User do
       #it {should respond_to (:remember_token)}
       before {@user.save}
         its(:remember_token) {should_not be_blank}
+    end
+# Тесты ассоциации с micropost
+    describe "micropost associations" do
+      before{@user.save}
+        let!(:older_micropost) do
+          FactoryGirl.create(:micropost,user: @user, created_at: 5.day.ago)
+        end
+        let!(:newer_micropost) do
+          FactoryGirl.create(:micropost,user: @user, created_at: 5.hour.ago)
+        end
+
+        it "should have right micropost in the right order" do
+          expect(@user.microposts.to_a).to eq [newer_micropost, older_micropost]
+        end
+
+        #Тест на уничтожение сообщений при удалении пользователей 
+        it "should destroy associated microposts" do
+          microposts=@user.microposts.to_a
+          @user.destroy
+          expect(microposts).not_to be_empty
+          microposts.each do |mpost|
+            expect(Micropost.where(id:mpost.id)).to be_empty
+          end
+        end
     end
 end
