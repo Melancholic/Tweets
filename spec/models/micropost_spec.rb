@@ -18,5 +18,21 @@ describe Micropost do
     before{@micropost.user_id=nil}
     it{should_not be_valid}
   end
+  # тест валидации данных
+  describe "when blank content" do
+    before{ @micropost.content=' '}
+    it{should_not  be_valid}
+  end
+  describe "when content  that is too long" do
+    before{ @micropost.content='a'*257}
+    it{should_not  be_valid}
+  end
+  describe "when content  that is too short" do
+    before{ @micropost.content='a'}
+    it{should_not  be_valid}
+  end
+
+
+
 
 end
