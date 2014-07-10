@@ -175,6 +175,41 @@ footer {
     color: $red;
   }
 
+
+  /* Microposts */
+
+  .microposts{
+      list-style: none;
+      margin: 10px 0 0 0;
+
+      li{
+          padding: 10px 0;
+          border-top: 1px solid #e8e8e8;
+      }
+    }
+
+    .content{
+        display: block;
+    }
+
+    .timestamp{
+      color: $lighthGray;
+    }
+
+    .gravatar{
+        float: left;
+        margin-right: 10px;
+    }
+    aside{
+      textarea{
+          height: 100px;
+          margin-bottom: 5px;
+      }
+    }
+
+
+
+
   /* CSS used here will be applied after bootstrap.css */
   .top-border { border-top: solid 1px #CCCCCC; width: 100%; padding: 20px 0px;}
   .padding-top-ten-px { padding-top: 10px; }

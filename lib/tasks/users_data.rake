@@ -2,8 +2,8 @@ namespace :db do
   desc "Fill database with firsts users"
   task populate: :environment do
     File.open(File.join("log/", 'users.log'), 'a+') do |f|
-      1000.times do |n|
-      usr=User.new;
+      50.times do |n|
+        usr=User.new;
         begin
           usr=User.new;
           tmp=Bazaar.heroku;
@@ -16,7 +16,16 @@ namespace :db do
         f.puts("#{usr.name}  #{usr.email}  #{usr.password}");
         puts "\tCorrect: #{usr.name}  #{usr.email}  #{usr.password}"
         usr.save();
-      end    
+      end 
+      
+      users=User.all(limit:4);
+      users.push(User.find(1));
+      100.times do
+        content=Faker::Lorem.sentence(10);
+        users.each do |user| 
+          user.microposts.create!(content: content);
+        end
+      end   
     end
   end
 end

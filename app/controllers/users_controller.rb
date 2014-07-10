@@ -7,11 +7,13 @@ class UsersController < ApplicationController
   before_action :admin_user, only: :destroy
   #for signed for NEW and CREATE
   before_action :signed_user_to_new, only:[:new, :create]
+ 
   def new
     @user=User.new();
   end
   def show()
     @user = User.find(params[:id]); 
+    @microposts=@user.microposts.paginate(page: params[:page]);
   end
 
   def index()
