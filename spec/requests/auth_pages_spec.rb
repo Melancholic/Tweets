@@ -61,6 +61,17 @@ subject {page}
               end
             end
           end
+          # Тест на доступ к операциям над сообщениями
+          describe "In the Microposts controller" do
+            describe "send to create action" do
+              before{post microposts_path}
+               specify{ expect(response).to redirect_to(signin_path)}
+            end
+            describe "send to destroy  action" do
+              before{delete micropost_path(FactoryGirl.create(:micropost))}
+              specify{ expect(response).to redirect_to(signin_path)}
+            end
+          end
         end
         
         describe "in the Users controller" do

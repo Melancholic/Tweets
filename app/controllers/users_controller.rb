@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   #for not signed users
-  before_action :signed_in_user, only:[:index,:edit,:update, :destroy]
+  before_action :signed_in_user, only:[:index,:edit,:update, :destroy] # in app/helpers/session_helper.rb
   #for signied users
   before_action :correct_user, only:[:edit,:update]
   #for admins
@@ -67,12 +67,7 @@ private
 
   #before-filter
   
-  def signed_in_user
-    if(!signed_in?)
-      save_target_url();
-      redirect_to(signin_url, notice:"Please, sign in!");
-    end
-  end
+
 
   def correct_user
     @user=User.find(params[:id]);

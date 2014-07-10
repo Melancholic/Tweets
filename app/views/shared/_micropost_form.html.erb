@@ -1,0 +1,7 @@
+<%= form_for(@micropost) do |f| %>
+  <%= render 'shared/error_msgs',object:f.object %>
+  <div class="field">
+    <%=f.text_area :content, placeholder: "Input your new  micropost :) " %>
+  </div>
+  <%= f.submit("Send!", class:"btn btn-large btn-primary") %>
+<% end %>

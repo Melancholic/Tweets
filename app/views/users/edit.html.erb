@@ -13,7 +13,7 @@
         </aside>
       </div>
     <%= form_for(@user) do |f| %>
-      <%= render('shared/error_msgs') %>
+      <%= render('shared/error_msgs', object: f.object) %>
       <%=render 'fields', f: f %>
       <br>
       <%= f.submit("Save changes", class: "btn btn-large btn-primary") %>

@@ -37,5 +37,10 @@ module SessionsHelper
     redirect_to(session[:return_to] || default);
     session.delete(:return_to);
   end
-
+  def signed_in_user
+    if(!signed_in?)
+      save_target_url();
+      redirect_to(signin_url, notice:"Please, sign in!");
+    end
+  end
 end
