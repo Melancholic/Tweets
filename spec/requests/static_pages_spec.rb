@@ -3,9 +3,23 @@ require 'spec_helper'
 describe "StaticPages" do
   subject{ page }
   describe "Home page" do
-  before { visit root_path }
+    before { visit root_path }
     it { should have_content('home page') }
     it { should have_title(full_title("Home"))}
+    describe "for signed-in users" do
+      let(:user) {FactoryGirl.create(:user)}
+      before do
+        FactoryGirl.create(:micropost, user: user, content: "Text msg 1")
+        FactoryGirl.create(:micropost, user:user, content: "Txt msg 2")
+        sign_in user
+        visit root_path
+      end 
+      it "should render the users feed" do
+        user.feed.each do |item|
+          expect(page).to have_selector("li##{item.id}", text: item.content)
+        end
+      end
+    end
   end
   describe "Help page" do
   before { visit help_path }

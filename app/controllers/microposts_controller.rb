@@ -6,6 +6,7 @@ class MicropostsController <ApplicationController
         flash[:succes]="Your message has been sended!";
         redirect_to(root_url);
     else
+        @feed_items=[];
         flash[:error]="When you send an error occurred!";
         render('static_pages/home');
     end
