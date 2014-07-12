@@ -1,7 +1,15 @@
 <li>
   <span class="content"> <%= micropost.content %></span>
   <span class="timestamp">
-   Posted <%= time_ago_in_words(micropost.created_at ) %> ago.
+    Posted <%= time_ago_in_words(micropost.created_at ) %> ago.
   </span>
+  <% if (current_user?(micropost.user) )%>
+    <%= link_to('Delete', 
+    micropost, method: :delete, 
+      data:{confirm: "Post \"#{truncate(micropost.content,length:20)}\" will be removed."+
+    "This action is irreversible."+
+    " Are you willing to continue?"}); 
+    %>
+  <% end %>
 </li>
 
