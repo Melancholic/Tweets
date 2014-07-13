@@ -6,13 +6,17 @@ describe "UsersPages" do
   
   describe "Index" do
     let (:user){FactoryGirl.create(:user)}
+      let!(:m){ FactoryGirl.create(:micropost, user: user)}
     before do
       sign_in user
       visit users_path
+
     end
 
     it{should have_title('Users')}
     it{should have_content(' All users')}
+    it{should have_content("Total tweets: #{user.microposts.count}")}
+
 
   #Тесты пагинации
     describe "pagination" do
