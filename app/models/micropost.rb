@@ -6,4 +6,7 @@ class Micropost < ActiveRecord::Base
   #Проверка на валидность
   validates(:content, presence: true, length: {maximum: 140, minimum:3});
   validates(:user_id, presence: true);
+  
+  LengthText=140;
 end
+
