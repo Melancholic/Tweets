@@ -14,8 +14,9 @@ class MicropostsController <ApplicationController
   end
 
   def destroy
+    user=@micropost.user;
     @micropost.destroy;
-    redirect_to root_url;
+    redirect_to user_path(user);
   end
 
 private
@@ -26,7 +27,12 @@ private
 
   def correct_user
     @micropost=current_user.microposts.find_by(id: params[:id]);
-    redirect_to(root_url) if @micropost.nil?;
+    if (@micropost.nil?)
+      @micropost=Micropost.find(params[:id]);
+      if (!current_user.admin? || @micropost.nil?)
+        redirect_to(root_url);
+      end
+    end
   end
 end
 

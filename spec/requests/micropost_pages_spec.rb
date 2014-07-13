@@ -35,4 +35,31 @@ describe "MicropostPages" do
       end
     end
   end
+
+  describe "test for DELETE-link access " do
+    let(:other_u){FactoryGirl.create(:user)}
+    let!(:m){FactoryGirl.create(:micropost, user: user)}
+    let!(:m1){FactoryGirl.create(:micropost, user:other_u)}
+    let(:admin){FactoryGirl.create(:user, admin: true)}
+    before {visit user_path(other_u)}
+    describe"should not delete a other micropost" do
+      it{should_not have_link('Delete',micropost_path(m1))}
+      it{should_not have_content('Delete')}
+    end
+    
+    describe "should delete a self  micropost" do
+      before {visit user_path(user)}
+      it "should delete a micropost" do
+        expect {click_link 'Delete'}.to change(Micropost, :count).by(-1)
+      end
+    end
+    
+    describe "with admin" do
+      before do
+        sign_in admin
+        visit user_path(user)
+      end
+       it{should have_link('Delete',micropost_path(m1))}
+    end 
+  end
 end

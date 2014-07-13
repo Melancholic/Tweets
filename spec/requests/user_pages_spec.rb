@@ -175,7 +175,10 @@ end
     let(:user) {FactoryGirl.create(:user)}
     let!(:m1) {FactoryGirl.create(:micropost, user: user, content: "msg1")}
     let!(:m2) {FactoryGirl.create(:micropost, user: user, content: "msg2")}
-    before { visit user_path(user)}
+    before do
+      sign_in user
+      visit user_path(user)
+    end
      it{should have_title(full_title(user.name))}
 
      describe "microposts" do
