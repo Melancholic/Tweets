@@ -15,6 +15,7 @@ describe User do
   # Тест связи с microposts
   it{ should respond_to(:microposts)}
   
+  it{should respond_to(:relationships) }
   #Тесты  администратора
   it{should_not be_admin}
   describe "admin flag set to 'true'" do

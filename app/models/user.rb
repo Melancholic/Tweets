@@ -3,6 +3,7 @@ VALID_NAME_REGEX = /\A[a-z \d \- \_]*[a-z \- \_]+[a-z \d \- \_]*\z/i
 class User < ActiveRecord::Base
   #Ассоциация any2many
   has_many(:microposts, dependent: :destroy);
+  has_many(:relationships, foreign_key: "follower_id", dependent: :destroy)
   #Порядок
   default_scope -> {order('name ASC')}
 
