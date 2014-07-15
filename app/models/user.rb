@@ -3,7 +3,8 @@ VALID_NAME_REGEX = /\A[a-z \d \- \_]*[a-z \- \_]+[a-z \d \- \_]*\z/i
 class User < ActiveRecord::Base
   #Ассоциация any2many
   has_many(:microposts, dependent: :destroy);
-  has_many(:relationships, foreign_key: "follower_id", dependent: :destroy)
+  has_many(:relationships, foreign_key: "follower_id", dependent: :destroy);
+  has_many(:followed_users, through: :relationships, source: :followed);
   #Порядок
   default_scope -> {order('name ASC')}
 
@@ -31,6 +32,18 @@ class User < ActiveRecord::Base
   def feed
   #also microposts
   Micropost.where("user_id=?",id);
+ end
+
+ def following?(other_usr)
+    self.relationships.find_by(followed_id:other_usr.id);
+ end
+
+ def follow!(other_usr)
+    self.relationships.create!(followed_id: other_usr.id);
+ end
+
+ def unfollow!(other_usr)
+    self.relationships.find_by(followed_id: other_usr.id).destroy!;
  end
 
 
