@@ -4,7 +4,16 @@ Tweets::Application.routes.draw do
   match '/about', to: 'static_pages#about',via: 'get'
   match '/contacts', to: 'static_pages#contacts',via: 'get'
   match '/signup', to: 'users#new',via: 'get'
-  resources :users;
+  #Определение подстраниц для ресурса
+  resources :users do
+     #add user/id/following and user/id/followers
+    member do
+      get :following, :followers #add user/id/following and user/id/followers
+    end
+     #add user/otherpages (without id!!!)
+     collection do
+     end
+  end
   resources :sessions, only: [:new, :create, :destroy];
   resources :microposts, only: [:create, :destroy];
   match '/signin', to: 'sessions#new', via:'get';

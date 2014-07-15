@@ -69,9 +69,11 @@ describe "UsersPages" do
   end
 
   let(:user) {FactoryGirl.create(:user)}
-  before{visit user_path(user)}
-  it{ should have_content(user.name)}
-  it{ should have_title(full_title(user.name))}
+  before do
+    visit user_path(user)
+  end
+  it{should have_selector('div.alert.alert-notice')}
+  it{ should have_title(full_title('Sign In'))}
 
 #Тесты регистрации
 #невалидные данные

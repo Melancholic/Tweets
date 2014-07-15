@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   #for not signed users
-  before_action :signed_in_user, only:[:index,:edit,:update, :destroy] # in app/helpers/session_helper.rb
+  before_action :signed_in_user, only:[:index,:edit,:update, :destroy,:show] # in app/helpers/session_helper.rb
   #for signied users
   before_action :correct_user, only:[:edit,:update]
   #for admins

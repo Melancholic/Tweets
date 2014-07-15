@@ -6,7 +6,7 @@ describe "MicropostPages" do
   before{sign_in user}
     describe "CREATE micropost" do
     before  {visit root_path}
-    # Тест на отправку корректного сообщения
+    # Тест на отправку неккорректного сообщения
     describe "with invalid data" do
       it "should not create a micropost" do
         expect{ click_button "Send!"}.not_to change(Micropost, :count)
@@ -16,9 +16,9 @@ describe "MicropostPages" do
         it{should have_content('error')}
       end
     end
-    #Тест отправки неккоректного сообщения
+    #Тест отправки корректного сообщения
     describe "with valid data" do
-      before  {fill_in 'micropost_content', with:"Tstasa"}
+      before  {fill_in 'tweets_content_area', with:"Tstasa"}
       it"should create a micropost" do
         expect{click_button("Send!")}.to change(Micropost, :count).by(1)
       end

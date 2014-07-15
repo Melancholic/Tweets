@@ -207,8 +207,35 @@ footer {
       }
     }
 
+/*Following/Followed stats*/
+  .follows-stat{
+    overflow: auto;
+    a{
+        float: left;
+        padding: 0 10px;
+        border-left: 0px solid $lighthGray;
+        color: gray;
+        &:first-child{
+            padding-left: 0;
+            border: 0;
+        }
+    }
+    &:hover{
+      text-decoration: none;
+      color: $blue;
+    }
+    strong{
+      display: block;
+    }
+}
 
-
+  .user_avatars{
+      overflow: auto;
+      margin-top : 10px;
+      .gravatar{
+          margin: 1px 1px;
+      }
+  }
 
   /* CSS used here will be applied after bootstrap.css */
   .top-border { border-top: solid 1px #CCCCCC; width: 100%; padding: 20px 0px;}
