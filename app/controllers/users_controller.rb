@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   #for not signed users
-  before_action :signed_in_user, only:[:index,:edit,:update, :destroy,:show] # in app/helpers/session_helper.rb
+  before_action :signed_in_user, only:[:index,:edit,:update, :destroy,:show, :following, :followers] # in app/helpers/session_helper.rb
   #for signied users
   before_action :correct_user, only:[:edit,:update]
   #for admins
@@ -56,6 +56,20 @@ class UsersController < ApplicationController
       flash[:error]="User #{uname} has not been deleted!";
     end
     redirect_to(users_url);
+ end
+
+ def following
+  @title='Following';
+  @user= User.find(params[:id]);
+  @users = @user.followed_users.paginate(page:params[:page]);
+  render('show_follow');
+ end
+
+ def followers
+  @title='Followers';
+  @user= User.find(params[:id]);
+  @users = @user.followers.paginate(page:params[:page]);
+  render('show_follow');
  end
 
  

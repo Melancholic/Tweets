@@ -105,7 +105,7 @@ footer {
   aside {
       section {
           padding:10px 0;
-          border-top: 1px solid $lighthGray;
+          border-top: 0px solid $lighthGray;
           &:first-child {
             border: 0;
             padding-top: 0;
@@ -123,8 +123,23 @@ footer {
             div {
               padding-top: 25px;
             }
+          
           }
+	ul {
+        	text-align: center;
+		margin-left: 0px;
+		float:left;
+	}
+
+        ul li {
+                display : inline-block;
+                margin-bottom: 10px;
+                vertical-align: top;
+                text-align: center;
+     
+        }
       }
+
   }
   .gravatar{
       float: left;

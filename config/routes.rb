@@ -4,6 +4,7 @@ Tweets::Application.routes.draw do
   match '/about', to: 'static_pages#about',via: 'get'
   match '/contacts', to: 'static_pages#contacts',via: 'get'
   match '/signup', to: 'users#new',via: 'get'
+  
   #Определение подстраниц для ресурса
   resources :users do
      #add user/id/following and user/id/followers
@@ -14,8 +15,11 @@ Tweets::Application.routes.draw do
      collection do
      end
   end
+
   resources :sessions, only: [:new, :create, :destroy];
   resources :microposts, only: [:create, :destroy];
+  resources :relationships, only:[:create, :destroy];
+
   match '/signin', to: 'sessions#new', via:'get';
   match '/signout', to:'sessions#destroy', via:'delete'
   # The priority is based upon order of creation: first created -> highest priority.

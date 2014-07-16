@@ -99,6 +99,16 @@ subject {page}
               it{should_not have_link("Sign Out", signout_path)}
           end
 
+          #Тесты на недоступность к страницам  полписок/подписчиков
+
+          describe "visiting the following page" do
+            before {visit following_user_path(user)}
+            it{should have_title(full_title('Sign In'))}
+          end
+          describe "visiting the followers page" do
+            before {visit followers_user_path(user)}
+            it{should have_title(full_title('Sign In'))}
+          end
         end
       end
     #Для зарегистрированных пользователей
