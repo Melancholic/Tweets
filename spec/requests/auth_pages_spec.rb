@@ -72,6 +72,22 @@ subject {page}
               specify{ expect(response).to redirect_to(signin_path)}
             end
           end
+
+        # Тест на доступ к операциям над связями между пользователями
+          describe "In the Relationships controller"do
+            describe "send to  the create action" do
+              before {post relationships_path}
+              specify{expect(response).to redirect_to(signin_path)}
+            end
+            describe "send to  the destroy action" do
+              before {delete relationship_path(1)}
+              specify{expect(response).to redirect_to(signin_path)}
+            end
+
+
+          end
+
+
         end
         
         describe "in the Users controller" do
