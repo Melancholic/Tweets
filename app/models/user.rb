@@ -35,8 +35,12 @@ class User < ActiveRecord::Base
   end
   
   def feed
+  # only self posts
   #also microposts
-  Micropost.where("user_id=?",id);
+  #Micropost.where("user_id=?",id);
+  
+  #Post by other users 
+  Micropost.from_users_followed_by(self);
  end
 
  def following?(other_usr)
@@ -51,6 +55,7 @@ class User < ActiveRecord::Base
     self.relationships.find_by(followed_id: other_usr.id).destroy!;
  end
 
+  
 
 private
   def create_remember_token
