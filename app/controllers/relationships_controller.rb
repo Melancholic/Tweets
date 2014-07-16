@@ -4,8 +4,12 @@ class RelationshipsController < ApplicationController
   def create
     @user=User.find(params[:relationship][:followed_id]);
     if (@user)
-     current_user.follow!(@user);
-     redirect_to(@user); 
+      current_user.follow!(@user);
+      respond_to do |format|
+        format.html {redirect_to(@user)};
+        #view in app/views/relationships/create.js.erb
+        format.js;
+      end
     end
   end
 
@@ -13,7 +17,11 @@ class RelationshipsController < ApplicationController
     @user=Relationship.find(params[:id]).followed;
     if (@user)
       current_user.unfollow!(@user);
-      redirect_to(@user);
+      respond_to do |format|
+        format.html {redirect_to(@user)};
+        #view in app/views/relationships/destroy.js.erb
+        format.js
+      end
     end
   end
 end
