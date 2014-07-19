@@ -14,4 +14,7 @@ FactoryGirl.define do
       content  "Simple msg"
       user
     end
+    factory :hashtag do
+      text "smp_tag"
+    end
 end

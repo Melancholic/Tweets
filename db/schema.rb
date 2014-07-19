@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140718112415) do
+ActiveRecord::Schema.define(version: 20140719094334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 20140718112415) do
     t.integer "micropost_id"
     t.integer "hashtag_id"
   end
+
+  add_index "hashtags_microposts", ["micropost_id", "hashtag_id"], name: "index_hashtags_microposts_on_micropost_id_and_hashtag_id", unique: true, using: :btree
 
   create_table "microposts", force: true do |t|
     t.string   "content"

@@ -2,18 +2,25 @@ require 'spec_helper'
 
 describe "StaticPages" do
   subject{ page }
-  describe "Home page" do
-    before { visit root_path }
-    it { should have_content('home page') }
-    it { should have_title(full_title("Home"))}
-    describe "for signed-in users" do
+    describe "Home page" do
+      before { visit root_path }
+      it { should have_content('home page') }
+      it { should have_title(full_title("Home"))}
+      describe "for signed-in users" do
       let(:user) {FactoryGirl.create(:user)}
-      before do
-        FactoryGirl.create(:micropost, user: user, content: "Text msg 1")
-        FactoryGirl.create(:micropost, user:user, content: "Txt msg 2")
+      before do  
+        FactoryGirl.create(:micropost, user: user, content: "Text msg 1 first_tag")
+        FactoryGirl.create(:micropost, user:user, content: "Txt msg 2 second_tag")
+#       FactoryGirl.create(:hashtag,text: "first_tag")
         sign_in user
-        visit root_path
+        visit user_path(user)
       end 
+      
+ #     it{should have_link('#first_tag', hashtag_path(Hashtag.find_by(text:"first_tag")))}
+ #     it{should have_content('#first_tag')}
+      before do
+        visit root_path
+      end
       it "should render the users feed" do
         user.feed.each do |item|
           expect(page).to have_selector("li##{item.id}", text: item.content)

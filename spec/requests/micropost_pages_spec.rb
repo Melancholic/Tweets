@@ -16,11 +16,18 @@ describe "MicropostPages" do
         it{should have_content('error')}
       end
     end
+
     #Тест отправки корректного сообщения
     describe "with valid data" do
       before  {fill_in 'tweets_content_area', with:"Tstasa"}
       it"should create a micropost" do
         expect{click_button("Send!")}.to change(Micropost, :count).by(1)
+      end
+      describe "with tag" do
+        before  {fill_in 'tweets_content_area', with:"test #tag"}
+        it"should create a micropost with tag" do
+          expect{click_button("Send!")}.to change(Hashtag, :count).by(1)
+        end
       end
     end        
     #Тест удаления сообщения

@@ -1,2 +1,23 @@
-<h1>Hashtags#show</h1>
-<p>Find me in app/views/hashtags/show.html.erb</p>
+<% provide(:title,@hashtag.full_text)%>
+<div class="row">
+ <h1> <div><%= "Hashtag #{@hashtag.full_text}" %> </div></h1>
+  <aside class ="span4">
+    <section>
+      <h1>
+        <div><%= truncate(@hashtag.full_text,length:13) %> </div>
+      </h1>
+      <h3><%="Total tweets: #{@hashtag.micropost.count}"%></h3>
+    </section> 
+    <section>
+    <ul>
+    </ul>
+    </section>
+  </aside>
+  <div class="span8">
+   <h3>All micropost with <%= @hashtag.full_text %>: </h3>   
+      <ol class="micropost">
+        <%=render 'shared/feed' %>
+      </ol>
+  </div>
+</div>
+
