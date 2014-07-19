@@ -9,6 +9,7 @@ class MicropostsController <ApplicationController
       if(tags.any?)
         tags=tags.map{|x| x[1..-1]};
         tags.uniq.each do |t|
+          t=t.downcase;
           tag=Hashtag.find_by(text: t.downcase);
           tag||=Hashtag.new(text: t);
           if(tag.valid?)

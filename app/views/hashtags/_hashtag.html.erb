@@ -1,0 +1,14 @@
+  <li>
+    <span class="content">
+    <%=link_to(hashtag.full_text, hashtag) %>
+    <% if   current_user.admin?  %>
+        | <%= link_to(
+        'Delete', hashtag, method: :delete, 
+        data: {confirm:"Hashhashtag '#{hashtag.full_text}' will be removed. This action is irreversible. Are you willing to continue?"}); %>
+      <% end %>
+    </span>
+    <span class="timestamp">
+      Total tweets with this hashtag:  <%= hashtag.micropost.count %>
+    </span> 
+  </li>
+

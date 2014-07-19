@@ -1,6 +1,6 @@
 <% provide(:title,@hashtag.full_text)%>
 <div class="row">
- <h1> <div><%= "Hashtag #{@hashtag.full_text}" %> </div></h1>
+ <h1> <div><%= link_to("Hashtag",hashtags_path)%><%= " #{@hashtag.full_text}" %> </div></h1>
   <aside class ="span4">
     <section>
       <h1>

@@ -251,6 +251,21 @@ footer {
           margin: 1px 1px;
       }
   }
+  /* Hashtags  index */
+
+  .hashtags{
+    list-style: none;
+    margin:0;
+    li{
+        overflow: auto;
+        padding: 15ps 0;
+        border-top: 10px solid $white;
+        &:last-child{
+            border-bottom: 1px solid $white;
+        }
+    }
+  }
+
 
   /* CSS used here will be applied after bootstrap.css */
   .top-border { border-top: solid 1px #CCCCCC; width: 100%; padding: 20px 0px;}

@@ -114,6 +114,35 @@ subject {page}
               it{should_not have_link("Settings")}
               it{should_not have_link("Sign Out", signout_path)}
           end
+          #Тесты на недоступность тегов анонимуса
+          let!(:post){FactoryGirl.create(:micropost,content:"tetx #some_tag", user: user) }
+          let!(:tag){FactoryGirl.create(:hashtag,micropost:[post],text:"some_tag")}
+
+           describe " visiting te Hashtags index page" do
+            before{visit hashtags_path}
+            it{should have_title(full_title('Sign In'))};
+          end
+
+          describe " visit root path " do
+            before {visit root_url}
+              it{should_not have_link("#Hashtags")}
+              it{should_not have_link("Settings")}
+              
+          end
+         describe "send GET request to Hashtags#index" do
+          before{get hashtags_path()}
+          specify{expect(response.body).not_to match(full_title('#Hashtags'))}
+          specify{expect(response).to redirect_to(signin_path)}
+        end
+        describe "send GET request to Hashtags#show" do
+          before{get hashtag_path(tag)}
+          specify{expect(response.body).not_to match(full_title(tag.full_text))}
+          specify{expect(response).to redirect_to(signin_path)}
+        end
+        describe "send DELETE request to Hashtags" do
+          before{delete hashtag_path(tag)}
+          specify{expect(response).to redirect_to(signin_path)}
+        end
 
           #Тесты на недоступность к страницам  полписок/подписчиков
 
@@ -144,14 +173,51 @@ subject {page}
         end
       end
       describe "as non-admin user" do
-        let(:user) {FactoryGirl.create(:user)}
+           let(:user) {FactoryGirl.create(:user)}
         let(:non_adm){FactoryGirl.create(:user)}
 
         before {sign_in(non_adm, no_capybara:true)}
+        #Для доступа к пользователям
         describe "send a DELETE request to User#destroy" do
           before{delete(user_path(user))}
           specify {expect(response).to redirect_to(root_url) }
         end
+        #Для доступа к тегам
+          describe "for hashtags" do
+          let!(:usr){FactoryGirl.create(:user)}
+          let!(:post){FactoryGirl.create(:micropost,content:"tetx #some1_tag", user:usr) }
+          let!(:tag){FactoryGirl.create(:hashtag,micropost:[post],text:"some1_tag")}
+           before do
+              sign_in usr
+              visit hashtags_path
+            end
+           describe " visiting te Hashtags index page" do
+            
+           
+            it{should have_title(full_title('#Hashtags'))};
+          end
+          describe " visit root path " do
+            before do
+              visit root_path
+            end
+              it{should have_link("#Hashtags")}
+              it{should have_link("Settings")}
+              
+          end
+         describe "send GET request to Hashtags#index" do
+          before{get hashtags_path()}
+          specify{expect(response.body).to match(full_title('#Hashtags'))}
+        end
+        describe "send GET request to Hashtags#show" do
+          before{get hashtag_path(tag)}
+          specify{expect(response.body).to match(full_title(tag.full_text))}
+        end
+        describe "send DELETE request to Hashtags" do
+          before{delete hashtag_path(tag)}
+          specify{expect(response).to redirect_to(root_url)}
+        end
+      end
+
       end
     end
 end

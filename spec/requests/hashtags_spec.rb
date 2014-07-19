@@ -8,7 +8,6 @@ describe "Hashtags" do
   before do
     sign_in user
     visit user_path(user)
-    puts body
   end
   describe "profile page" do
     it{should have_title(full_title(user.name))}
@@ -23,6 +22,22 @@ describe "Hashtags" do
     it{should have_content(tag.full_text)}
     it{should have_content("Total tweets: #{tag.micropost.count}")}
     it{should have_link(user.name, user_path(user))}
+    it{should have_link("Hashtag",hashtags_path)}
+  end
+  describe "at home page" do
+    before{visit root_path}
+    it{should have_title(full_title('Home'))}
+    it{should have_content(tag.full_text)}
+    it{should have_link(tag.full_text, hashtag_path(tag))}
+    it{should have_link("#Hashtags", hashtags_path)}
+  end
+
+  describe "at hashtags (#index) page" do
+    before{click_link('#Hashtags')}
+    it{should have_title(full_title('#Hashtags'))}
+    it{should have_content('#Hashtags')}
+    it{should have_content(tag.full_text)}
+    it{should have_link(tag.full_text, hashtag_path(tag))}
   end
 
 end

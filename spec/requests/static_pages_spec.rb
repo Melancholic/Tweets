@@ -61,8 +61,6 @@ describe "StaticPages" do
     visit root_path;
     click_link("About");
     expect(page).to have_title(full_title('About'));
-    click_link("Help");
-    expect(page).to have_title(full_title('Help'));
     click_link("Home");   
     expect(page).to have_title(full_title('Home'));
     click_link("Sign Up");

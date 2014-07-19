@@ -1,2 +1,8 @@
-<h1>Hashtags#index</h1>
-<p>Find me in app/views/hashtags/index.html.erb</p>
+<% provide(:title,"#Hashtags")%>
+<h1>All Hashtags</h1>
+<%= will_paginate() %>
+<ul class="hashtags">
+  <!-- May be finded in app/views/hashtags/_hashtag.html.erb-->
+  <%= render @hashtags %>
+</ul>
+<%= will_paginate() %>
