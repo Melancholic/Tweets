@@ -6,11 +6,11 @@
       <h1>
         <div><%= truncate(@hashtag.full_text,length:13) %> </div>
       </h1>
-      <h3><%="Total tweets: #{@hashtag.micropost.count}"%></h3>
-    </section> 
-    <section>
-    <ul>
-    </ul>
+      <div><%="Total tweets: #{@hashtag.micropost.count}"%></div>
+      <div><% res=most_common_value(@hashtag.micropost.map(&:user_id)) %></div>
+      <div><%=raw "Most used by the user: #{link_to(User.find(res[:value]).name,user_path(res[:value]))} (#{res[:size]})"%></div>
+      <div><% res=most_rare_value(@hashtag.micropost.map(&:user_id)) %></div>
+      <div><%=raw  "Least used by the user: #{link_to(User.find(res[:value]).name,user_path(res[:value]))} (#{res[:size]})"%></div>
     </section>
   </aside>
   <div class="span8">

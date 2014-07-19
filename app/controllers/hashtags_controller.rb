@@ -6,6 +6,7 @@ class HashtagsController < ApplicationController
   def show()
     @hashtag=Hashtag.find(params[:id]);
     @feed_items= @hashtag.micropost.paginate(page:params[:page]);
+    @res="";
   end
 private
   def hashtag_params()

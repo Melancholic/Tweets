@@ -13,4 +13,20 @@ module HashtagsHelper
       content;
     end
   end
+
+  def most_common_value(a)
+   ar = a.group_by{|i| i}.values.max_by(&:size);
+   res={};
+   res[:size]=ar.size;
+   res[:value]=ar.first;
+   return res;
+  end
+
+  def most_rare_value(a)
+    ar=a.group_by{|i| i}.values.min_by(&:size);
+    res={};
+    res[:size]=ar.size;
+    res[:value]=ar.first;
+    return res;
+  end
 end
