@@ -7,6 +7,8 @@ gem 'bcrypt-ruby'
 # Use fake users gem
 gem 'faker', '1.1.2'
 
+gem "jqcloud-rails"
+
 #Use pagination
 gem "will_paginate"
 gem 'bootstrap-will_paginate' 
@@ -53,6 +55,9 @@ end
 group :production do
     gem 'pg'#, '0.15.1'
     gem 'rails_12factor', '0.0.2'
+    #For Apache
+    gem 'therubyracer'
+
 end
 
 # Use ActiveModel has_secure_password

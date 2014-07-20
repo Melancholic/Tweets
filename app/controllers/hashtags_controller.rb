@@ -4,6 +4,19 @@ class HashtagsController < ApplicationController
 
   def index
     @hashtags=Hashtag.paginate(page: params[:page]);
+    @hashtags_array=[];
+    Hashtag.all(limit:1000).each do |tag|
+      map={};
+      map["text"]=tag.text;
+      map["weight"]=tag.micropost.count;
+      map["link"]=url_for(tag);
+      @hashtags_array.push(map);
+    end
+
+    respond_to do |format|
+      format.html;
+      format.js;
+    end
   end
 
   def show()
@@ -12,11 +25,11 @@ class HashtagsController < ApplicationController
   end
 
   def destroy
-    name= Hashtag.find(params[:id]).name;
+    tag= Hashtag.find(params[:id]).text;
     if(Hashtag.find(params[:id]).destroy)
-      flash[:success]="Hashtag ##{name} has been deleted!";
+      flash[:success]="Hashtag ##{tag} has been deleted!";
     else
-      flash[:error]="Hashtag #{name} has not been deleted!";
+      flash[:error]="Hashtag #{tag} has not been deleted!";
     end
     redirect_to(hashtags_path);
   end

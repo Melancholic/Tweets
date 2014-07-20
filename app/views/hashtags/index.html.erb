@@ -1,8 +1,41 @@
 <% provide(:title,"#Hashtags")%>
-<h1>All Hashtags</h1>
-<%= will_paginate() %>
-<ul class="hashtags">
-  <!-- May be finded in app/views/hashtags/_hashtag.html.erb-->
-  <%= render @hashtags %>
-</ul>
-<%= will_paginate() %>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10">
+      <div class="tab-content">
+        <!-- Hashtags -->
+	    <div class="tab-pane active" id="hashtags">
+	      <ul class="nav nav-tabs">
+            <li class="active"><%= link_to("List",'#list',:remote => false,'data-target' =>"#list",  'data-toggle' => 'tab')%></li>
+            <li><%= link_to("Cloud",'#cloud' ,'data-target'=>"#cloud", 'data-toggle' => 'tab')%></li>
+          </ul>
+          <div class="tab-content">
+            <!-- Add question -->
+            <div class="tab-pane active" id="list">
+              <%= will_paginate() %>
+              <ul class="hashtags">
+                <!-- May be finded in app/views/hashtags/_hashtag.html.erb-->
+                <%= render @hashtags %>
+              </ul>
+              <%= will_paginate() %>
+            </div>
+            <!-- Questions list -->
+            <div class="tab-pane" id="cloud">
+            <%=@hashtags_array.to_json %>
+             $('head').append(' <script type="text/javascript">
+                
+              </script>')
+              <div id="cloud_area" style="width: 550px; height: 350px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

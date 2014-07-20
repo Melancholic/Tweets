@@ -266,7 +266,14 @@ footer {
     }
   }
 
-
+  .num{
+    color: $lighthGray;
+  }
+  .date{
+   color: $lighthGray;
+   font-size: 1em; 
+   white-space: nowrap;
+  }
   /* CSS used here will be applied after bootstrap.css */
   .top-border { border-top: solid 1px #CCCCCC; width: 100%; padding: 20px 0px;}
   .padding-top-ten-px { padding-top: 10px; }
