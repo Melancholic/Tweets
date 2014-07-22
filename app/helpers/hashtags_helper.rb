@@ -15,7 +15,6 @@ module HashtagsHelper
   end
 
   def most_common_value(a)
-  puts "\n\n\n ARG: #{a}"
     res={};
     unless a.any?
       res[:size]=0;
