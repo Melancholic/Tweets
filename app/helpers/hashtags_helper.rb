@@ -15,18 +15,29 @@ module HashtagsHelper
   end
 
   def most_common_value(a)
-   ar = a.group_by{|i| i}.values.max_by(&:size);
-   res={};
-   res[:size]=ar.size;
-   res[:value]=ar.first;
-   return res;
+  puts "\n\n\n ARG: #{a}"
+    res={};
+    unless a.any?
+      res[:size]=0;
+      res[:value]='none';
+    else       
+      ar = a.group_by{|i| i}.values.max_by(&:size);
+      res[:size]=ar.size;
+      res[:value]=ar.first;
+    end
+    return res;
   end
 
   def most_rare_value(a)
-    ar=a.group_by{|i| i}.values.min_by(&:size);
     res={};
-    res[:size]=ar.size;
-    res[:value]=ar.first;
+     unless a.any?
+      res[:size]=0;
+      res[:value]='none';
+    else 
+      ar=a.group_by{|i| i}.values.min_by(&:size);
+      res[:size]=ar.size;
+      res[:value]=ar.first;
+    end
     return res;
   end
 end

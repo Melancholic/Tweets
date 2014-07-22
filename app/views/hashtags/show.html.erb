@@ -7,19 +7,21 @@
         <div><%= truncate(@hashtag.full_text,length:13) %> </div>
       </h1>
       <div><%="Total tweets: #{@hashtag.micropost.count}"%></div>
-      <% res=most_common_value(@hashtag.micropost.map(&:user_id)) %>
-      <div><%=raw "Most used by  user: #{link_to(User.find(res[:value]).name,user_path(res[:value]))} <it class='num'>(#{res[:size]})</it>" %></div>
-      <% res=most_rare_value(@hashtag.micropost.map(&:user_id)) %>
-      <div><%=raw  "Least used by user: #{link_to(User.find(res[:value]).name,user_path(res[:value]))} <it class='num'>(#{res[:size]})</it>"%></div>
-      <% res_f =  @hashtag.micropost.sort_by(&:created_at).first %>
-      <div><%=raw  "First tweet by user: #{link_to(User.find(res_f.user_id).name,user_path(res_f.user_id))} <it class='date'>(#{res_f.created_at.strftime("%m.%d.%y")})</it>"%></div>
-      <% res_l = @hashtag.micropost.sort_by(&:created_at).last  %>
-      <div><%=raw  "Last tweet by  user:  #{link_to(User.find(res_l.user_id).name,user_path(res_l.user_id))} <it class='date'>(#{res_l.created_at.strftime("%m.%d.%y")})</it>"%></div>
-
-      <% tmp = (res_l.created_at.to_date-res_f.created_at.to_date).round %>
-      <% res = @hashtag.micropost.count / (tmp < 1 ? 1: tmp) %>
-      <div><%= "Tweets per day: #{res}"%> </div>  
-
+      <div><%= raw "Created: <it class='date'> #{@hashtag.created_at.strftime("%m.%d.%y")} </it>"%></div>
+      <% user_ids=@hashtag.micropost.map(&:user_id) %>
+      <% if(user_ids.any?)%>
+        <% res=most_common_value(@hashtag.micropost.map(&:user_id)) %>
+        <div><%=raw "Most used by  user: #{link_to(User.find(res[:value]).name,user_path(res[:value]))} <it class='num'>(#{res[:size]})</it>" %></div>
+        <% res=most_rare_value(@hashtag.micropost.map(&:user_id)) %>
+        <div><%=raw  "Least used by user: #{link_to(User.find(res[:value]).name,user_path(res[:value]))} <it class='num'>(#{res[:size]})</it>"%></div>
+        <% res_f =  @hashtag.micropost.sort_by(&:created_at).first %>
+        <div><%=raw  "First tweet by user: #{link_to(User.find(res_f.user_id).name,user_path(res_f.user_id))} <it class='date'>(#{res_f.created_at.strftime("%m.%d.%y")})</it>"%></div>
+        <% res_l = @hashtag.micropost.sort_by(&:created_at).last  %>
+        <div><%=raw  "Last tweet by  user:  #{link_to(User.find(res_l.user_id).name,user_path(res_l.user_id))} <it class='date'>(#{res_l.created_at.strftime("%m.%d.%y")})</it>"%></div>
+        <% tmp = (res_l.created_at.to_date-res_f.created_at.to_date).round %>
+        <% res = @hashtag.micropost.count / (tmp < 1 ? 1: tmp) %>
+        <div><%= "Tweets per day: #{res}"%> </div>  
+      <% end %>
     </section>
   </aside>
   <div class="span8">
