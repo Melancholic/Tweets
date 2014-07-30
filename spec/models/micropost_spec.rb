@@ -12,6 +12,7 @@ describe Micropost do
   it{should respond_to(:user_id)}
   #Тест наличие связи с  Users
   it{should respond_to(:user)}
+  it{should respond_to(:replics_to)}
   its(:user) {should eq user}
   # Тест валидности user_id
   describe "If user id is not valid" do

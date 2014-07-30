@@ -4,7 +4,7 @@
     <%= link_to feed_item.user.name, feed_item.user %>
   </span>
   <span class="content">
-    <%= raw  make_link_to_hashtag(wrap(feed_item.content)) %>
+    <%= raw  make_link_to_hashtag(make_preprocess(feed_item.content)) %>
   </span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(feed_item.created_at)%> ago.

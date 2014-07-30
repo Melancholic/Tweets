@@ -14,6 +14,7 @@ describe User do
   it{ should respond_to(:admin) }
   # Тест связи с microposts
   it{ should respond_to(:microposts)}
+  it{should respond_to(:replics_from)}
   # Тест связи с relationships
   it{should respond_to(:relationships) }
 

@@ -1,6 +1,8 @@
 class Micropost < ActiveRecord::Base
    #Ассоциация many2any
   belongs_to :user;
+  # #for replics 
+  belongs_to :replics_to, class_name: 'User'
   # Упорядочивание сообщений
   default_scope -> {order('created_at DESC')};
   #Ассоциация many2many

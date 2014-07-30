@@ -1,9 +1,10 @@
 VALID_EMAIL_REGEX =  /\A[\w+\-.0-9]+@([a-z\d\-]+(\.[a-z\d]+)*\.[a-z]+)+\z/i
 VALID_NAME_REGEX = /\A[a-z \d \- \_]*[a-z \- \_]+[a-z \d \- \_]*\z/i
 class User < ActiveRecord::Base
+  
   #Ассоциация any2many
   has_many(:microposts, dependent: :destroy);
-  
+  has_many :replics_from, class_name: 'User', foreign_key: 'replics_to_id'
   has_many(:relationships, foreign_key: "follower_id", dependent: :destroy);
   has_many(:followed_users, through: :relationships, source: :followed);
   
@@ -25,6 +26,10 @@ class User < ActiveRecord::Base
   
   has_secure_password();
   validates(:password,length:{minimum:5}, confirmation: true, on: :create);
+  
+  def self.get_regex
+     return /[@][a-zA-Zа-яА-Я0-9\_]+/;
+  end
   
   def User.new_remember_token
     SecureRandom.urlsafe_base64;
