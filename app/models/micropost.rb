@@ -2,7 +2,7 @@ class Micropost < ActiveRecord::Base
    #Ассоциация many2any
   belongs_to :user;
   # #for replics 
-  belongs_to :replics_to, class_name: 'User'
+  has_and_belongs_to_many :replics_to, class_name: 'User',join_table: 'replics_users', foreign_key: 'micropost_id'
   # Упорядочивание сообщений
   default_scope -> {order('created_at DESC')};
   #Ассоциация many2many
@@ -21,7 +21,8 @@ class Micropost < ActiveRecord::Base
     
     # Its good:
     followed_users="SELECT  followed_id FROM relationships WHERE follower_id = :user ";
-    where("user_id IN(#{followed_users}) OR user_id= (:user)", user: user);
+    replics_posts="SELECT micropost_id FROM replics_users WHERE user_id = (:user)"
+    where("user_id IN(#{followed_users}) OR user_id= (:user) OR id IN(#{replics_posts})", user: user);
   end
 
 end

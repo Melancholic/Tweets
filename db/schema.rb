@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730073100) do
+ActiveRecord::Schema.define(version: 20140731080732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20140730073100) do
   add_index "relationships", ["follower_id"], name: "index_relationships_on_follower_id", using: :btree
 
   create_table "replics_users", id: false, force: true do |t|
-    t.integer "microposts_id"
-    t.integer "hashtags_id"
+    t.integer "user_id"
+    t.integer "micropost_id"
   end
 
   create_table "users", force: true do |t|

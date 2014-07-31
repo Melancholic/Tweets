@@ -22,6 +22,16 @@ class MicropostsController <ApplicationController
           end
         end
       end
+      users=@micropost.content.scan(User.get_regex);
+      if(users.any?)
+        usrs=users.map{|x| x[1..-1]};
+        usrs.uniq.each do|u|
+          usr=User.find_by(name:u);
+          if(!usr.nil?)
+            @micropost.replics_to.push(usr);
+          end
+        end
+      end
     end
     @micropost.hashtag.uniq{|t| t.text};
     if(@micropost.save)

@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   
   #Ассоциация any2many
   has_many(:microposts, dependent: :destroy);
-  has_many :replics_from, class_name: 'User', foreign_key: 'replics_to_id'
+  has_and_belongs_to_many :replics_from, class_name: 'Micropost', foreign_key: 'user_id',  join_table: 'replics_users';
   has_many(:relationships, foreign_key: "follower_id", dependent: :destroy);
   has_many(:followed_users, through: :relationships, source: :followed);
   
