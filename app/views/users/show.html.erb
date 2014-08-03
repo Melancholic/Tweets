@@ -10,9 +10,10 @@
     </section> 
     <section>
     <ul>
-    <li><%= render 'shared/stats' %></li>
-    <li><%= render 'follow_form' if signed_in? %></li> 
+      <li><%= render 'shared/stats' %></li>
+      <li><%= render 'follow_form' if signed_in? %></li> 
     </ul>
+    <%= render 'micropost_form', :for_user => @user if signed_in? and !current_user?(@user) %>
     </section>
   </aside>
   <div class="span8">

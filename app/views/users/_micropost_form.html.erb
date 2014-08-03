@@ -13,10 +13,12 @@ function length_check(len_max, field_id, counter_id) {
     } 
   } 
 </script>
+
 <%= form_for(@micropost) do |f| %>
   <%= render 'shared/error_msgs',object:f.object %>
   <div class="field">
-    <%=f.text_area :content, placeholder: "Input your new  micropost :) ",
+    <%= f.hidden_field :for_user, :value => for_user.name %>
+    <%=f.text_area :content, placeholder: "to @#{for_user.name} ",
       :id => 'tweets_content_area',
       :onkeyup =>"length_check(#{Micropost::LengthText}, 'tweets_content_area', 'counter')",
       :onclick =>"length_check(#{Micropost::LengthText}, 'tweets_content_area', 'counter')" %>
@@ -24,4 +26,3 @@ function length_check(len_max, field_id, counter_id) {
   <span id="counter"> <%= Micropost::LengthText %> / <%= Micropost::LengthText %></span>
   <%= f.submit("Send!", class:"btn btn-large btn-primary") %>
 <% end %>
-
