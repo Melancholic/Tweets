@@ -1,0 +1,17 @@
+<% provide(:title,@user.name)%>
+<div class="center hero-unit">
+ <h1> Verification</h1>
+</div>
+<div class="row ">
+    <aside class ="span3">
+    </aside>
+  <div class ="center span6">  
+  <center>
+    <%= form_tag("verification",method: "get") do  %>
+      <%= label_tag(:key, "Verification key:") %>
+      <%= text_field_tag(:key) %>
+      <%= submit_tag("Send key", class: "btn btn-large btn-primary") %>
+    <% end %>
+    </center>
+  </div>
+</div>

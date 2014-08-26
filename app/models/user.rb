@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   
   has_many(:reverse_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy);
   has_many(:followers, through: :reverse_relationships, source: :follower);
-
+  has_one :verification_user;
   #Порядок
   default_scope -> {order('name ASC')}
 
@@ -21,7 +21,10 @@ class User < ActiveRecord::Base
   before_save{
     self.email=email.downcase;
   }
-  
+  after_create{
+    self.verification_user=VerificationUser.create(user_id:12, verificated:false);
+  }
+
   before_create :create_remember_token;
   
   has_secure_password();
@@ -60,8 +63,13 @@ class User < ActiveRecord::Base
     self.relationships.find_by(followed_id: other_usr.id).destroy!;
  end
 
-  
+  def verificated?()
+    self.verification_user.verificated
+  end
 
+  def verification_key()
+    self.verification_user.verification_key
+  end
 private
   def create_remember_token
     self.remember_token = User.encrypt(User.new_remember_token());

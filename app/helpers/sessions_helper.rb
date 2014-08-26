@@ -43,4 +43,9 @@ module SessionsHelper
       redirect_to(signin_url, notice:"Please, sign in!");
     end
   end
+  def verificated_user
+      if(!current_user.verificated?)
+        redirect_to(verification_user_url(current_user), notice:"Please, verificated your e-mail!");
+      end
+  end
 end

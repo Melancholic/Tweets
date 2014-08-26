@@ -12,6 +12,7 @@ Tweets::Application.routes.draw do
      #add user/id/following and user/id/followers
     member do
       get :following, :followers #add user/id/following and user/id/followers
+      get :verification
     end
      #add user/otherpages (without id!!!)
      collection do

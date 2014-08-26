@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
   #for not signed users
   before_action :signed_in_user, only:[:index,:edit,:update, :destroy,:show, :following, :followers] # in app/helpers/session_helper.rb
+  before_action :verificated_user, only:[:index, :destroy,:show, :following, :followers]
+  before_action :verificated_user_is_done, only: :verification
   #for signied users
-  before_action :correct_user, only:[:edit,:update]
+  before_action :correct_user, only:[:edit,:update,:verification]
   #for admins
   before_action :admin_user, only: :destroy
   #for signed for NEW and CREATE
@@ -74,7 +76,22 @@ class UsersController < ApplicationController
   render('show_follow');
  end
 
- 
+ def verification
+  @title='Verification'
+  @user= User.find(params[:id]);
+  @verification_key=@user.verification_key;
+  if(params[:key])
+    if(params[:key]==@user.verification_key)
+      @user.verification_user.update(verification_key:"",verificated:true);
+      flash[:success]="User #{@user.name} has been verificated!";
+      redirect_to(root_url);
+    else
+      flash[:error]="User #{@user.name} has not been verificated!";
+      render('verification');
+    end
+  end
+ end
+
 private
 
   def user_params
@@ -88,6 +105,12 @@ private
   def correct_user
     @user=User.find(params[:id]);
     if (!current_user?(@user))
+      redirect_to(root_url);
+    end
+  end
+
+  def verificated_user_is_done
+    if (current_user.verificated?)
       redirect_to(root_url);
     end
   end
@@ -107,4 +130,5 @@ private
         redirect_to(root_url);
     end
   end
+
 end
