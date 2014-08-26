@@ -1,5 +1,12 @@
 require 'spec_helper'
 
 describe VerificationUser do
-  pending "add some examples to (or delete) #{__FILE__}"
+    let(:vu){FactoryGirl.create(:VerificationUser);}
+    subject {vu}
+
+    it {should respond_to(:user_id)}
+    it {should respond_to(:verification_key)}
+    it {should respond_to(:verificated)}
+
+
 end

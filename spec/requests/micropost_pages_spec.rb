@@ -3,7 +3,10 @@ require 'spec_helper'
 describe "MicropostPages" do
   subject { page}
   let(:user){FactoryGirl.create(:user)}
-  before{sign_in user}
+  before do
+    sign_in user 
+    verificate user
+  end
     describe "CREATE micropost" do
     before  {visit root_path}
     # Тест на отправку неккорректного сообщения
@@ -64,6 +67,7 @@ describe "MicropostPages" do
     describe "with admin" do
       before do
         sign_in admin
+        verificate admin
         visit user_path(user)
       end
        it{should have_link('Delete',micropost_path(m1))}

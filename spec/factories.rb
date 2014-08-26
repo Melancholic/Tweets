@@ -17,4 +17,8 @@ FactoryGirl.define do
     factory :hashtag do
       text "smp_tag"
     end
+    factory :VerificationUser do
+      verificated true
+      verification_key "somekey"
+    end
 end

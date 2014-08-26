@@ -24,6 +24,10 @@ describe User do
   it{should respond_to(:following?)}
   it{should respond_to(:follow!)}
 
+  it{should respond_to(:verification_user)}
+  it{should respond_to(:verificated?)}
+  it {should respond_to(:verification_key)}
+
   describe "following" do
     let(:other_user){FactoryGirl.create(:user)}
     before do

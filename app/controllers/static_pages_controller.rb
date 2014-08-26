@@ -1,4 +1,5 @@
 class StaticPagesController < ApplicationController
+  before_action :verificated_user, only: :home;
   def home
     if(signed_in?)
       @micropost=current_user.microposts.build;

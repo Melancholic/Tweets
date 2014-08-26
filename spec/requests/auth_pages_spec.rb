@@ -17,7 +17,10 @@ subject {page}
     end
     describe "with valid data" do
       let(:user) {FactoryGirl.create(:user)};
-      before{ sign_in(user)}
+      before do
+        sign_in(user)
+        verificate(user)
+      end
       it { should have_title(full_title(user.name)) };
       it { should have_link( 'Profile', href: user_path(user)) };
       it { should have_link('Sign Out', href: signout_path)};
@@ -55,6 +58,7 @@ subject {page}
                 fill_in "Email", with: user.email
                 fill_in "Password", with: user.password
                 click_button "Sign In" 
+                verificate user
               end
               it "should render the default page" do
                 expect(page).to have_title(full_title(user.name))
@@ -160,7 +164,11 @@ subject {page}
       describe "as wrong user" do
         let(:user){FactoryGirl.create(:user)}
         let(:wrong_usr){FactoryGirl.create(:user,email: "wrong@email.dom")}
-        before{ sign_in(user, no_capybara: true)}
+        before do
+         sign_in(user, no_capybara: true)
+          verificate(user, no_capybara: true)
+
+         end
         
         describe "send GET request to Users#edit" do
           before{get edit_user_path(wrong_usr)}
@@ -176,10 +184,16 @@ subject {page}
            let(:user) {FactoryGirl.create(:user)}
         let(:non_adm){FactoryGirl.create(:user)}
 
-        before {sign_in(non_adm, no_capybara:true)}
+        before do
+          sign_in(non_adm,no_capybara: true)
+          verificate(non_adm, no_capybara: true)
+        end
         #Для доступа к пользователям
         describe "send a DELETE request to User#destroy" do
-          before{delete(user_path(user))}
+          before do
+            delete(user_path(user))
+          end
+          
           specify {expect(response).to redirect_to(root_url) }
         end
         #Для доступа к тегам
@@ -189,6 +203,7 @@ subject {page}
           let!(:tag){FactoryGirl.create(:hashtag,micropost:[post],text:"some1_tag")}
            before do
               sign_in usr
+              verificate usr
               visit hashtags_path
             end
            describe " visiting te Hashtags index page" do

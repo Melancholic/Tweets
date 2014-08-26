@@ -44,6 +44,9 @@ module SessionsHelper
     end
   end
   def verificated_user
+      if(current_user.nil?)
+        return
+      end
       if(!current_user.verificated?)
         redirect_to(verification_user_url(current_user), notice:"Please, verificated your e-mail!");
       end

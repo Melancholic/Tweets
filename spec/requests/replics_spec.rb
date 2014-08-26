@@ -12,7 +12,10 @@ describe "Replics" do
   let!(:msg2){FactoryGirl.create(:micropost, content:"text @ #{u3.name} and @#{u3.name}12e @#{u3.name}_us",user: user)}
 
   describe " main user" do
-    before {sign_in user}  
+    before do
+      sign_in user
+      verificate user
+    end
     describe "at profile page" do
       before do
         visit user_path(user)
@@ -36,7 +39,10 @@ describe "Replics" do
     end
   end
   describe "at another user (correct)" do
-    before {sign_in u1}  
+    before do
+      sign_in u1
+      verificate u1
+    end  
     describe "at home page" do
       before do
         visit root_path
@@ -49,7 +55,10 @@ describe "Replics" do
     end
   end
     describe "at another user (incorrect)" do
-    before {sign_in u3}  
+    before do
+      sign_in u3
+      verificate u3
+    end
     describe "at profile page" do
       before{visit user_path(u3)}
       it{should have_title(full_title(u3.name))}

@@ -1,6 +1,7 @@
 class HashtagsController < ApplicationController
-  before_action :signed_in_user, only:[:index,:edit,:update, :destroy,:show]
-  before_action :admin_user, only: [:create,:destroy]
+  before_action :signed_in_user, only:[:index,:edit,:update, :destroy,:show];
+  before_action :verificated_user, only:[:index,:edit,:update, :destroy,:show];
+  before_action :admin_user, only: [:create,:destroy];
 
   def index
     @hashtags=Hashtag.paginate(page: params[:page]);

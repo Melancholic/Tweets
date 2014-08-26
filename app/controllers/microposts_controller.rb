@@ -4,7 +4,6 @@ class MicropostsController <ApplicationController
 
   def create
     @micropost=current_user.microposts.build(micropost_params);
-    puts "\n\n\n\ PRAMS: #{params}";
     to_user=params[:micropost][:for_user];
     unless (to_user.nil?)
       @micropost.content="@#{to_user}, #{@micropost.content}";

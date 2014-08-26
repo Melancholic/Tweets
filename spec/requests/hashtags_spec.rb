@@ -7,6 +7,7 @@ describe "Hashtags" do
   let!(:tag){FactoryGirl.create(:hashtag, text:"tag",micropost:[msg])}
   before do
     sign_in user
+    verificate user
     visit user_path(user)
   end
   describe "profile page" do

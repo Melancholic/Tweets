@@ -13,6 +13,7 @@ describe "StaticPages" do
         FactoryGirl.create(:micropost, user:user, content: "Txt msg 2 second_tag")
 #       FactoryGirl.create(:hashtag,text: "first_tag")
         sign_in user
+        verificate user
         visit user_path(user)
       end 
       

@@ -9,6 +9,7 @@ describe "UsersPages" do
       let!(:m){ FactoryGirl.create(:micropost, user: user)}
     before do
       sign_in user
+      verificate user
       visit users_path
 
     end
@@ -39,6 +40,7 @@ describe "UsersPages" do
     let(:admin) {FactoryGirl.create(:admin)}
     before do
       sign_in admin
+      verificate admin
       visit users_path
     end
     it {should have_link('Delete', href: user_path(User.first))}
@@ -97,27 +99,67 @@ describe "UsersPages" do
     
 #валидные данные
     describe "with valid data" do
+       let!(:user_notv){FactoryGirl.create(:user)}
+
       before do
-        setValidUsersData(user)
+        visit signup_path
+        setValidUsersData(user_notv)
       end
       it "should create a user" do
         expect {click_button(submit)}.to change(User, :count).by(1)
       end
       describe "after signup" do
         before {click_button submit}
-        let(:usr){User.find_by(email: 'example@mail.com')}
+        let!(:usr){User.find_by(email: user_notv.email)}
         it{should have_link("Sign Out") }
-        it{should have_title(full_title(usr.name))}
-        it{should have_content("Welcome to Tweets!")}
-        it{should have_selector('div.alert.alert-success')}
+        it{should have_title(full_title("Verification"))}
+        #describe "after verificate" do
+        #  before do
+        #  fill_in "key", with: usr.verification_user.verification_key;
+        #  click_button "Send key"
+        #  puts page.body
+        #  puts usr.verification_user.verification_key
+        #  end
+        #  #it{should have_selector('div.alert.alert-success')}
+        #  it{should have_title(full_title("Home"))}
+        #end
       end
     end
+#Подтверждение email
 
+  describe "Test Verificated" do
+   let (:notf_u){FactoryGirl.create(:user)}
+    before {sign_in notf_u}
+    describe"at verificate page" do
+      it{should have_title("Verification")}
+       describe  "should not acces to /users"do
+        before{visit(users_path)}
+        it{should have_title("Verification")}
+       end 
+       describe  "should not acces to user#show"do
+        before{visit(user_path(notf_u))}
+        it{should have_title("Verification")}
+       end
+       describe  "should not acces to home"do
+          before{visit root_url}
+          it{should have_title("Verification")}
+        end
+       describe  "should not acces to /hashtags"do
+        before{visit(hashtags_path())}
+        it{should have_title("Verification")}
+       end
+       describe  "should have acces to user#edit"do
+        before{visit(edit_user_path(notf_u))}
+        it{should have_title("Edit profile")}
+       end
+    end
+  end 
 # Тесты  обновления пользователей
     describe 'edit profile ' do
       let(:user) {FactoryGirl.create(:user)}
       before do
       sign_in(user)
+      verificate user
       visit edit_user_path(user)
       end
 
@@ -179,6 +221,7 @@ end
     let!(:m2) {FactoryGirl.create(:micropost, user: user, content: "msg2")}
     before do
       sign_in user
+      verificate user
       visit user_path(user)
     end
      it{should have_title(full_title(user.name))}
@@ -199,6 +242,7 @@ end
     describe "followed users" do
       before do
         sign_in user
+        verificate user
         visit following_user_path(user)
       end
       it{should have_title(full_title("Following"))}
@@ -208,6 +252,7 @@ end
     describe "for followers" do
       before do
         sign_in other_user
+        verificate other_user
         visit followers_user_path(other_user)
       end
         it{should have_title(full_title("Followers"))}

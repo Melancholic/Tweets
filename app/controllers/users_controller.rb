@@ -84,7 +84,7 @@ class UsersController < ApplicationController
     if(params[:key]==@user.verification_key)
       @user.verification_user.update(verification_key:"",verificated:true);
       flash[:success]="User #{@user.name} has been verificated!";
-      redirect_to(root_url);
+      redirect_to(user_path(@user));
     else
       flash[:error]="User #{@user.name} has not been verificated!";
       render('verification');

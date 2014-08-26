@@ -1,4 +1,16 @@
 include ApplicationHelper
+def verificate (user, args={})
+  if args[:no_capybara]
+    puts  user.verification_user.verification_key;
+    user.verification_user.update_attribute(:verification_key,"");
+    user.verification_user.update_attribute(:verificated,true);
+  else
+      visit verification_user_path user;
+       fill_in "key", with: user.verification_user.verification_key;
+       click_button "Send key"
+  end
+end
+
 
 def sign_in (user, args={})
   if args[:no_capybara]
@@ -15,7 +27,7 @@ end
 
 def setValidUsersData(user)
   user.name="Example user";
-  user.email='example@mail.com';
+  user.email="example#{Random.rand(1000)}@mail.com";
   user.password="123456";
   user.password_confirmation=user.password;
   fill_in "Name", with: user.name;
