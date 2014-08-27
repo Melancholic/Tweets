@@ -35,4 +35,8 @@ Tweets::Application.configure do
   config.active_support.deprecation = :stderr
 
   ActiveModel::SecurePassword.min_cost=true;
+    config.log_formatter = ::Logger::Formatter.new
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method= :test 
 end

@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   #for not signed users
   before_action :signed_in_user, only:[:index,:edit,:update, :destroy,:show, :following, :followers] # in app/helpers/session_helper.rb
   before_action :verificated_user, only:[:index, :destroy,:show, :following, :followers]
-  before_action :verificated_user_is_done, only: :verification
+  before_action :verificated_user_is_done, only: [:verification, :sent_verification_mail]
   #for signied users
   before_action :correct_user, only:[:edit,:update,:verification]
   #for admins
@@ -31,6 +31,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome to Tweets!";
       sign_in @user;
       redirect_to(@user);
+      TweetsMailer.verification(@user).deliver;
     else
       render 'new';
     end
@@ -83,6 +84,7 @@ class UsersController < ApplicationController
   if(params[:key])
     if(params[:key]==@user.verification_key)
       @user.verification_user.update(verification_key:"",verificated:true);
+      TweetsMailer.verificated(@user).deliver;
       flash[:success]="User #{@user.name} has been verificated!";
       redirect_to(user_path(@user));
     else
@@ -92,6 +94,13 @@ class UsersController < ApplicationController
   end
  end
 
+  def sent_verification_mail()
+    @user= User.find(params[:id]);
+    TweetsMailer.verification(@user).deliver;
+    flash[:success]="Mail to #{@user.email} has been sended!";
+    #render('verification');
+    redirect_to(verification_user_url(@user));
+  end
 private
 
   def user_params

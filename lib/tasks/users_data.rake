@@ -24,6 +24,9 @@ def make_users(size=75)
         f.puts("#{usr.name}  #{usr.email}  #{usr.password}");
         puts "\tCorrect: #{usr.name}  #{usr.email}  #{usr.password}"
         usr.save();
+        usr.verification_user.update(verification_key:"",verificated:true);
+        #usr.verification_user=VerificationUser.create(user_id: usr.id, verificated:true);
+
       end
     end
 end

@@ -5,14 +5,14 @@ Tweets::Application.routes.draw do
   match '/help', to: 'static_pages#help',via: 'get'
   match '/about', to: 'static_pages#about',via: 'get'
   match '/contacts', to: 'static_pages#contacts',via: 'get'
-  match '/signup', to: 'users#new',via: 'get'
-  
+  match '/signup', to: 'users#new',via: 'get' 
   #Определение подстраниц для ресурса
   resources :users do
      #add user/id/following and user/id/followers
     member do
       get :following, :followers #add user/id/following and user/id/followers
       get :verification
+      post :sent_verification_mail
     end
      #add user/otherpages (without id!!!)
      collection do

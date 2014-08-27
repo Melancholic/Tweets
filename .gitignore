@@ -16,6 +16,11 @@
 /tmp
 .secret
 /config/database.yml
+/config/initializers/setup_mail.rb
 *~
 users.log 
 /users.log 
+#/config/environment/*
+#/config/environment/production.rb
+#config/environments/production.rb
+
