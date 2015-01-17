@@ -22,7 +22,8 @@ class User < ActiveRecord::Base
     self.email=email.downcase;
   }
   after_create{
-    self.verification_user=VerificationUser.create(user_id:12, verificated:false);
+    #self.verification_user=VerificationUser.create(user_id: 12, verificated:false);
+    self.verification_user=VerificationUser.create(user_id: self.id, verificated:false);
   }
 
   before_create :create_remember_token;

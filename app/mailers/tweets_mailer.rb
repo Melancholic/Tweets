@@ -8,6 +8,6 @@ class TweetsMailer < ActionMailer::Base
 
   def verificated(user)
   @user=user
-    mail to: user.email, subject:"Welcom to Tweets Project!"
+    mail to: user.email, subject:"Welcome to Tweets Project!"
   end
 end
