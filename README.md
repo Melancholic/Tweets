@@ -25,6 +25,7 @@ VERSION 1.0
 - Microposts;
 - Hashtags for microposts;
 - Users feed;
+- E-mail verification;
 
 
 
