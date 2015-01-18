@@ -10,4 +10,11 @@ class TweetsMailer < ActionMailer::Base
   @user=user
     mail to: user.email, subject:"Welcome to Tweets Project!"
   end
+
+  def recived_email_for_passrst(user)
+    @user=user;
+    @host=user.reset_password.host
+    @time=user.reset_password.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+    mail to: user.email, subject:"Reset your password in Tweets"
+  end
 end

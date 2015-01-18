@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826080748) do
+ActiveRecord::Schema.define(version: 20150118094546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,16 @@ ActiveRecord::Schema.define(version: 20140826080748) do
     t.integer "user_id"
     t.integer "micropost_id"
   end
+
+  create_table "reset_passwords", force: true do |t|
+    t.integer  "user_id"
+    t.string   "password_key", null: false
+    t.string   "host"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reset_passwords", ["user_id"], name: "index_reset_passwords_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"

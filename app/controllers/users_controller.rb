@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   #for admins
   before_action :admin_user, only: :destroy
   #for signed for NEW and CREATE
-  before_action :signed_user_to_new, only:[:new, :create]
+  before_action :signed_user_to_new, only:[:new, :create,:reset_password]
  
   def new
     @user=User.new();
@@ -101,6 +101,57 @@ class UsersController < ApplicationController
     #render('verification');
     redirect_to(verification_user_url(@user));
   end
+  
+  def reset_password
+    @title='Reset password';
+    if (!params[:key] || !ResetPassword.getUser(params[:key]))
+      @request_email=true;
+    else
+      @request_email=false;
+      user=ResetPassword.getUser(params[:key])
+      if(TimeDifference.between(Time.now, user.reset_password.updated_at).in_minutes <=TYME_LIM_PASSRST_KEY)
+        @user=user;
+        @key=params[:key];
+      else
+        user.reset_password.destroy;
+        flash[:error]="The lifetime of this reference completion. Please try the request again.";
+        redirect_to(reset_password_users_url);
+      end
+    end
+  end
+
+  def recive_email_for_reset_pass
+    user=User.find_by(email: params[:email]);
+    host=request.remote_ip;
+    if(user)
+      flash[:success]="Mail with instructions has been sended to e-mail:  #{user.email}!";
+      #Make key for reset
+      user.make_reset_password(host:host);
+      #user.reset_password= ResetPassword.create(user_id: user.id, host:host);
+      TweetsMailer.recived_email_for_passrst(user).deliver;
+      redirect_to(root_url);
+    else
+      flash[:error]="User with e-mail: #{params[:email]} not found!";
+      redirect_to(reset_password_users_url);
+    end
+  end
+
+  def resetpass_recive_pass
+  @user = User.find(params[:format]);
+  uparams=user_params();
+  uparams[:name]=@user.name;
+  uparams[:email]=@user.email;
+  puts  uparams;
+
+   if  (@user.update_attributes(uparams))
+      flash[:succes] = "Updating your profile is success"
+      redirect_to(root_url);
+    else
+        @key=params[:key];
+        render 'reset_password';
+    end
+  end
+
 private
 
   def user_params

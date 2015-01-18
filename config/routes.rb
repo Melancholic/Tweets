@@ -16,6 +16,9 @@ Tweets::Application.routes.draw do
     end
      #add user/otherpages (without id!!!)
      collection do
+      get :reset_password
+      post :recive_email_for_reset_pass
+      post :resetpass_recive_pass
      end
   end
 
