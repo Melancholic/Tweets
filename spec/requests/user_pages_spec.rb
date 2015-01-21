@@ -42,6 +42,7 @@ describe "UsersPages" do
       sign_in admin
       verificate admin
       visit users_path
+      puts page.title
     end
     it {should have_link('Delete', href: user_path(User.first))}
     it "should be  to delete another user" do
@@ -76,7 +77,125 @@ describe "UsersPages" do
   end
   it{should have_selector('div.alert.alert-notice')}
   it{ should have_title(full_title('Sign In'))}
+# тесты восстановления пароля
+    let(:rst_lnk){"Forgot your password?"}
+    describe "have reset password link" do
+      it{should have_link(rst_lnk,reset_password_users_path)};
+      describe"click reset-password link" do
+        before{click_link(rst_lnk);}
+          it{should have_title(full_title('Reset Password'))};
+          it{should have_content('Please check your e-mail!')};
+          it{should have_content('E-mail')};
+          it{should have_button('Reset password')};
+        describe "send email" do
+         before{puts(page.title)}
+          it{should have_title(full_title('Reset Password'))};
+          describe "non fill" do
+            before{click_button('Reset password')}
+            it{should have_content("User with e-mail: not found!")};
+            it{should have_title(full_title('Reset Password'))};
+          end
+          describe "uncorrect fill" do
+            before{
+              fill_in "email", with: "unknowawd";
+              click_button('Reset password'); 
+            }
+            it{should have_content("User with e-mail: unknowawd not found!")};
+            it{should have_title(full_title('Reset Password'))};
+          end
+          describe "correct fill" do
+            before{
+              puts(page.title)
+              fill_in "email", with: user.email;
+            }
+            
+            it "e-mail" do 
+              expect {click_button('Reset password')}.to change(ResetPassword, :count); 
+              should have_title(full_title('Home'));
+              should have_content("Mail with instructions has been sended to e-mail: #{user.email}!");
+              should have_selector('div.alert.alert-success')
 
+            end
+          end
+            describe "in reset_password controller" do
+                let(:rp){user.make_reset_password(host:"127.0.0.1")}
+              it{
+                rp.host.should ==("127.0.0.1")
+                user.should eq(ResetPassword.getUser(rp))
+                user.should eq(ResetPassword.getUser(user.reset_password_key))
+                user.should eq(rp.getUser)
+                user.reset_password.password_key.should eq(ResetPassword.getUser(rp).reset_password_key)
+                user.reset_password.password_key.should eq(rp.password_key)
+              }
+            describe "go to reset_password path with key param" do
+              describe "in the future" do
+                before{
+                  Timecop.travel(rp.updated_at+1.day);
+                  visit reset_password_users_path(key:rp.password_key)
+                }
+                it{
+                  should have_title(full_title('Reset Password'));
+                  should have_content("The lifetime of this reference completion. Please try the request again.");
+                  should have_selector('div.alert.alert-error')
+                  should have_content('Please check your e-mail!');
+                  should have_content('E-mail');
+                  should have_button('Reset password');
+                  should have_field('email');
+             #     Timecop.return;
+                }
+                after{Timecop.return;}
+              end
+              describe "in the now" do
+                before{
+                  visit reset_password_users_path(key:rp.password_key)
+                }
+                it{
+                  should have_title(full_title('Reset Password'));
+                  should have_button('Reset password');
+                  should have_field('user_password');
+                  should have_field('user_password_confirmation');
+                }
+              end
+              describe "fill uncorrect data" do
+                before{
+                  
+                  visit reset_password_users_path(key:rp.password_key)
+                  fill_in 'user_password', with:"qwe"
+                  click_button 'Reset password'
+                }
+                it{
+                  should have_title(full_title('Reset Password'));
+                  should have_button('Reset password');
+                  should have_field('user_password');
+                  should have_field('user_password_confirmation');
+                  should have_selector('div.alert.alert-error');
+                  should have_content('Password confirmation doesn\'t match Password');
+                  should have_content('Password confirmation can\'t be blank');
+                }
+              end
+              describe "fill correct data" do
+                let(:pass){"123456correct_pas"}
+                before{
+                  visit reset_password_users_path(key:rp.password_key)
+                  fill_in 'user_password', with:pass;
+                  fill_in 'user_password_confirmation', with:pass;
+                  click_button 'Reset password'
+                  user.reload;
+                }
+                it{
+                  should have_title(full_title('Home'));
+                  should have_selector('div.alert.alert-succes');
+                  should have_content('Updating your profile is success');
+                  user.should eq(user.authenticate(pass));
+                }
+              end
+            end
+          end
+      end
+        #before{fill_in(user.email,"email")}       
+        
+      end
+    end
 #Тесты регистрации
 #невалидные данные
   describe "Signup page" do

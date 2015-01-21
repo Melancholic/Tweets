@@ -6,12 +6,10 @@ class ResetPassword < ActiveRecord::Base
   def getUser()
     User.find(self.user_id);
   end
+
   def self.getUser(key)
+    key = key[:password_key] if  key.instance_of? ResetPassword;
     rp=ResetPassword.find_by(password_key: key.to_s);
-    if(rp)
-      User.find(rp.user_id);
-    else
-      nil
-    end
+    User.find(rp.user_id) if(rp);
   end
 end

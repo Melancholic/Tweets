@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :signing_user, only:[:new] # in app/helpers/session_helper.rb
+  before_action :signed_in_user, only:[:destroy]
   def new
   end
 

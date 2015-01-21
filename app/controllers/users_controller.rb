@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   def new
     @user=User.new();
   end
+
   def show()
     @user = User.find(params[:id]); 
     @microposts=@user.microposts.paginate(page: params[:page]);
@@ -78,7 +79,6 @@ class UsersController < ApplicationController
  end
 
  def verification
-  @title='Verification'
   @user= User.find(params[:id]);
   @verification_key=@user.verification_key;
   if(params[:key])
@@ -98,12 +98,11 @@ class UsersController < ApplicationController
     @user= User.find(params[:id]);
     TweetsMailer.verification(@user).deliver;
     flash[:success]="Mail to #{@user.email} has been sended!";
-    #render('verification');
     redirect_to(verification_user_url(@user));
   end
   
   def reset_password
-    @title='Reset password';
+    @title="Reset Password";
     if (!params[:key] || !ResetPassword.getUser(params[:key]))
       @request_email=true;
     else
@@ -111,7 +110,7 @@ class UsersController < ApplicationController
       user=ResetPassword.getUser(params[:key])
       if(TimeDifference.between(Time.now, user.reset_password.updated_at).in_minutes <=TYME_LIM_PASSRST_KEY)
         @user=user;
-        @key=params[:key];
+        #@key=params[:key];
       else
         user.reset_password.destroy;
         flash[:error]="The lifetime of this reference completion. Please try the request again.";
@@ -137,18 +136,14 @@ class UsersController < ApplicationController
   end
 
   def resetpass_recive_pass
-  @user = User.find(params[:format]);
-  uparams=user_params();
-  uparams[:name]=@user.name;
-  uparams[:email]=@user.email;
-  puts  uparams;
-
-   if  (@user.update_attributes(uparams))
+   @user = User.find(params[:format]);
+   if  (@user.update_attributes(user_params()))
       flash[:succes] = "Updating your profile is success"
       redirect_to(root_url);
+      TweetsMailer.send_new_pass_notification(@user).deliver;
     else
-        @key=params[:key];
-        render 'reset_password';
+      @title="Reset Password";
+      render 'reset_password';
     end
   end
 

@@ -25,6 +25,15 @@ def sign_in (user, args={})
   end
 end
 
+def sign_out (user, args={})
+  if args[:no_capybara]
+    delete(sign_out)
+  else
+      visit user_path(user);
+      click_link("Sign Out");
+  end
+end
+
 def setValidUsersData(user)
   user.name="Example user";
   user.email="example#{Random.rand(1000)}@mail.com";

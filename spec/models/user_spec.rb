@@ -27,6 +27,10 @@ describe User do
   it{should respond_to(:verification_user)}
   it{should respond_to(:verificated?)}
   it {should respond_to(:verification_key)}
+#тесты на связь с reset_passwords
+  it {should respond_to(:reset_password)}
+  it {should respond_to(:reset_password_key)}
+  it {should respond_to(:make_reset_password)}
 
   describe "following" do
     let(:other_user){FactoryGirl.create(:user)}

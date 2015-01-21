@@ -20,6 +20,9 @@
 *~
 users.log 
 /users.log 
+*.tmp
+*.swp
+*.bup
 #/config/environment/*
 #/config/environment/production.rb
 #config/environments/production.rb

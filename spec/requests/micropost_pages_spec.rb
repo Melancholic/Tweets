@@ -50,6 +50,7 @@ describe "MicropostPages" do
     let(:other_u){FactoryGirl.create(:user)}
     let!(:m){FactoryGirl.create(:micropost, user: user)}
     let!(:m1){FactoryGirl.create(:micropost, user:other_u)}
+    let!(:m2){FactoryGirl.create(:micropost, user:other_u)}
     let(:admin){FactoryGirl.create(:user, admin: true)}
     before {visit user_path(other_u)}
     describe"should not delete a other micropost" do
@@ -66,11 +67,12 @@ describe "MicropostPages" do
     
     describe "with admin" do
       before do
+        sign_out(user)
         sign_in admin
         verificate admin
         visit user_path(user)
       end
-       it{should have_link('Delete',micropost_path(m1))}
+       it{should have_link('Delete',micropost_path(m2))}
     end 
   end
 end

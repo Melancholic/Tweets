@@ -96,7 +96,7 @@ class User < ActiveRecord::Base
       self.reset_password.delete;
       self.create_reset_password(args);
     else
-      self.create_reset_password();
+      self.create_reset_password(args);
     end
   end
 private

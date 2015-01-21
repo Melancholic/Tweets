@@ -43,6 +43,11 @@ module SessionsHelper
       redirect_to(signin_url, notice:"Please, sign in!");
     end
   end
+  def signing_user
+    if(signed_in?)
+      redirect_to(user_url(self.current_user));
+    end
+  end
   def verificated_user
       if(current_user.nil?)
         return
