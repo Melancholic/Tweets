@@ -3,6 +3,12 @@
   <span class="user">
     <%= link_to feed_item.user.name, feed_item.user %>
   </span>
+  <% if feed_item.isRepost? %>
+   <span class="timestamp">
+   <% @author=feed_item.author%>
+     reposted by <%=link_to @author.name, @author %>
+   </span>
+  <%end%>
   <span class="content">
     <%= raw  make_link_to_hashtag(make_preprocess(feed_item.content)) %>
   </span>

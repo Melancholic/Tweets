@@ -56,13 +56,16 @@ class MicropostsController <ApplicationController
   end
 
   def repost
-    @micropost = Micropost.find(params[:id]);
-    @micropost.reposted.append(current_user);
-    current_user.reload;
-    respond_to do |format|
-        #view in app/views/relationships/destroy.js.erb
-        format.js
-      end
+    orig_post=Micropost.find(params[:id]);
+    if(orig_post)
+      Micropost.create(user_id:current_user.id, 
+        content: orig_post.content, 
+        repost_id:orig_post.id);
+      respond_to do |format|
+          #view in app/views/relationships/destroy.js.erb
+          format.js
+        end
+    end
   end
 
 
@@ -70,6 +73,10 @@ private
 
   def micropost_params
     params.require(:micropost).permit(:content);
+  end
+  
+  def repost_params
+    params.permit(:id).merge(user_id:current_user.id);
   end
 
   def correct_user

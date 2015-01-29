@@ -1,5 +1,12 @@
 @import "bootstrap";
 $lighthGray: #999;
+
+$gray-darker:  #222;
+$gray-dark:    #333;
+$gray:         #555;
+$gray-light:   #777;
+$gray-lighter: #eee;
+
 @mixin box_sizing {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -219,11 +226,14 @@ footer {
         display: block;
         padding: 7px 5px;
     }
+    .quote{
+      color: $gray;
+    }
 
     .timestamp{
       color: $lighthGray;
     }
-    .peference{
+    .perference{
       border-left: 1px solid #e8e8e8;
       border-right: 1px solid #e8e8e8;
       padding-left: 5px ;

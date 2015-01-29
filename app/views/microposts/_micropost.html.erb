@@ -1,25 +1,42 @@
 <li>
-  <span class="content"> <%=raw  make_preprocess(micropost.content)%></span>
+  <%= link_to gravatar_for(micropost.user, size:48), micropost.user %>
+  <span class="user">
+    <%= link_to micropost.user.name, micropost.user %>
+  </span>
+  <% if micropost.isRepost? %>
+    <% style="quote"%>
+   <span class="timestamp">
+   <% @author=micropost.author%>
+     reposted by <%=link_to @author.name, @author %>
+   </span>
+  <%end%>
+  <%= content_tag :span, class: "content #{style}" do -%>
+    <%=raw  make_preprocess(micropost.content)%>
+  <% end %>
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at ) %> ago.
   </span>
-  <% if (!current_user?(micropost.user) &&  signed_in?)%>
-    <span class="peference" >
-      <%= link_to("Repost ",repost_path(micropost),  method: :post, remote: true); %>
+  <% if (signed_in?)%>
+    <%= content_tag :span, class: "timestamp perference " do %>
+      <% if (current_user==micropost.author || micropost.repostedBy(current_user)) %>
+        <%="\u21B7"%>
+      <% else %>
+        <%= link_to("\u21B7",repost_micropost_path(micropost.id),  method: :post, remote: true, title:"repost"); %>
+      <%end %>
       <span id=<%="#{micropost.id}"%>>
         <%=micropost.repostedCount %>
       </span>
+    <% end%>
+  <% end %>
+  <% if (current_user?(micropost.user) || current_user.admin?)%>
+    <span class="peference">
+      <%= link_to('Delete', 
+        micropost, method: :delete, 
+        data:{confirm: "Post \"#{truncate(micropost.content,length:20)}\" will be removed."+
+        "This action is irreversible."+
+        " Are you willing to continue?"}); 
+      %>
     </span>
   <% end %>
-  <span class="peference">
-  <% if (current_user?(micropost.user) || current_user.admin?)%>
-    <%= link_to('Delete', 
-    micropost, method: :delete, 
-      data:{confirm: "Post \"#{truncate(micropost.content,length:20)}\" will be removed."+
-    "This action is irreversible."+
-    " Are you willing to continue?"}); 
-    %>
-  <% end %>
-  </span>
 </li>
 

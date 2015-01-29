@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   has_one :verification_user;
   has_one :reset_password;
   #reposts
-  has_and_belongs_to_many :reposts, class_name: 'Micropost', foreign_key: 'user_id',  join_table: 'reposts';
+    #has_and_belongs_to_many :reposts, class_name: 'Micropost', foreign_key: 'user_id',  join_table: 'reposts';
   #Порядок
   default_scope -> {order('name ASC')}
 
@@ -101,6 +101,11 @@ class User < ActiveRecord::Base
       self.create_reset_password(args);
     end
   end
+
+  def reposts
+    self.microposts.map{|x| Micropost.find(x.repost_id) unless x.repost_id.nil?}.compact
+  end
+
 private
   def create_remember_token
     self.remember_token = User.encrypt(User.new_remember_token());

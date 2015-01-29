@@ -8,7 +8,7 @@ class Micropost < ActiveRecord::Base
   #Ассоциация many2many
   has_and_belongs_to_many :hashtag;
   #reposts
-  has_and_belongs_to_many :reposted, class_name: 'User',join_table: 'reposts', foreign_key: 'micropost_id'
+  has_many :reposts, class_name: "Micropost", foreign_key: "repost_id", dependent: :destroy;
   #Проверка на валидность
   validates(:content, presence: true, length: {maximum: 140, minimum:3});
   validates(:user_id, presence: true);
@@ -24,14 +24,31 @@ class Micropost < ActiveRecord::Base
     # Its good:
     followed_users="SELECT  followed_id FROM relationships WHERE follower_id = :user ";
     replics_posts="SELECT micropost_id FROM replics_users WHERE user_id = (:user)"
-    reposts="SELECT micropost_id FROM reposts WHERE user_id = (:user)"
     
-    where("user_id IN(#{followed_users}) OR user_id= (:user) OR id IN(#{replics_posts}) OR id in (#{reposts})", user: user);
+    where("user_id IN(#{followed_users}) OR user_id= (:user) OR id IN(#{replics_posts}) ", user: user);
   end
   
   def repostedCount
-    self.reposted.count
+    self.reposts.count
   end
 
+  def isRepost?
+    !self.repost_id.nil?
+  end
+
+  def getOriginal
+    Micropost.find(self.repost_id) if self.isRepost?;
+  end
+  def author
+    if(self.isRepost?)
+      User.find(self.getOriginal().user_id);
+    else
+      User.find(self.user_id);
+    end
+  end
+
+  def repostedBy(user)
+    self.reposts.map{|x| x.user_id}.include?(user.id)
+  end
 end
 
