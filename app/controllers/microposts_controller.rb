@@ -1,5 +1,5 @@
 class MicropostsController <ApplicationController
-  before_action :signed_in_user, only: [:create, :destroy];
+  before_action :signed_in_user, only: [:create, :destroy, :repost];
   before_action :correct_user,  only: :destroy;
 
   def create
@@ -54,6 +54,17 @@ class MicropostsController <ApplicationController
     @micropost.destroy;
     redirect_to user_path(user);
   end
+
+  def repost
+    @micropost = Micropost.find(params[:id]);
+    @micropost.reposted.append(current_user);
+    current_user.reload;
+    respond_to do |format|
+        #view in app/views/relationships/destroy.js.erb
+        format.js
+      end
+  end
+
 
 private
 

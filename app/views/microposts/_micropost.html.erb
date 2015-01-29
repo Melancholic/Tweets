@@ -3,6 +3,15 @@
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at ) %> ago.
   </span>
+  <% if (!current_user?(micropost.user) &&  signed_in?)%>
+    <span class="peference" >
+      <%= link_to("Repost ",repost_path(micropost),  method: :post, remote: true); %>
+      <span id=<%="#{micropost.id}"%>>
+        <%=micropost.repostedCount %>
+      </span>
+    </span>
+  <% end %>
+  <span class="peference">
   <% if (current_user?(micropost.user) || current_user.admin?)%>
     <%= link_to('Delete', 
     micropost, method: :delete, 
@@ -11,5 +20,6 @@
     " Are you willing to continue?"}); 
     %>
   <% end %>
+  </span>
 </li>
 

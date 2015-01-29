@@ -7,6 +7,8 @@ class Micropost < ActiveRecord::Base
   default_scope -> {order('created_at DESC')};
   #Ассоциация many2many
   has_and_belongs_to_many :hashtag;
+  #reposts
+  has_and_belongs_to_many :reposted, class_name: 'User',join_table: 'reposts', foreign_key: 'micropost_id'
   #Проверка на валидность
   validates(:content, presence: true, length: {maximum: 140, minimum:3});
   validates(:user_id, presence: true);
@@ -22,7 +24,13 @@ class Micropost < ActiveRecord::Base
     # Its good:
     followed_users="SELECT  followed_id FROM relationships WHERE follower_id = :user ";
     replics_posts="SELECT micropost_id FROM replics_users WHERE user_id = (:user)"
-    where("user_id IN(#{followed_users}) OR user_id= (:user) OR id IN(#{replics_posts})", user: user);
+    reposts="SELECT micropost_id FROM reposts WHERE user_id = (:user)"
+    
+    where("user_id IN(#{followed_users}) OR user_id= (:user) OR id IN(#{replics_posts}) OR id in (#{reposts})", user: user);
+  end
+  
+  def repostedCount
+    self.reposted.count
   end
 
 end

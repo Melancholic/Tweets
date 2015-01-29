@@ -23,11 +23,12 @@ Tweets::Application.routes.draw do
   end
 
   resources :sessions, only: [:new, :create, :destroy];
-  resources :microposts, only: [:create, :destroy];
+  resources :microposts, only: [:create, :destroy, :repost];
   resources :relationships, only:[:create, :destroy];
   resources :hashtags, only: [:create, :destroy, :index, :show];
   match '/signin', to: 'sessions#new', via:'get';
   match '/signout', to:'sessions#destroy', via:'delete'
+  post '/microposts/:id/repost' => 'microposts#repost', as: :repost
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

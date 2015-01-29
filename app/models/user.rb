@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   has_many(:followers, through: :reverse_relationships, source: :follower);
   has_one :verification_user;
   has_one :reset_password;
+  #reposts
+  has_and_belongs_to_many :reposts, class_name: 'Micropost', foreign_key: 'user_id',  join_table: 'reposts';
   #Порядок
   default_scope -> {order('name ASC')}
 
