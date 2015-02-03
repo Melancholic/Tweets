@@ -141,6 +141,7 @@ class UsersController < ApplicationController
       flash[:succes] = "Updating your profile is success"
       redirect_to(root_url);
       TweetsMailer.send_new_pass_notification(@user).deliver;
+      @user.reset_password.destroy;
     else
       @title="Reset Password";
       render 'reset_password';
