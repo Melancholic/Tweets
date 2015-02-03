@@ -1,26 +1,42 @@
-<li id="<%=feed_item.id %>">
+<li>
   <%= link_to gravatar_for(feed_item.user, size:48), feed_item.user %>
   <span class="user">
     <%= link_to feed_item.user.name, feed_item.user %>
   </span>
   <% if feed_item.isRepost? %>
+    <% style="quote"%>
    <span class="timestamp">
    <% @author=feed_item.author%>
      reposted by <%=link_to @author.name, @author %>
    </span>
   <%end%>
-  <span class="content">
-    <%= raw  make_link_to_hashtag(make_preprocess(feed_item.content)) %>
-  </span>
+  <%= content_tag :span, class: "content #{style}" do -%>
+    <%=raw  make_preprocess(feed_item.content)%>
+  <% end %>
   <span class="timestamp">
-    Posted <%= time_ago_in_words(feed_item.created_at)%> ago.
+    Posted <%= time_ago_in_words(feed_item.created_at ) %> ago.
   </span>
-  <% if (current_user?(feed_item.user) )%>
-    <%= link_to('Delete', 
-      feed_item, method: :delete, 
-      data:{confirm: "Post \"#{truncate(feed_item.content,length:20)}\" will be removed."+
-      "This action is irreversible."+
-      " Are you willing to continue?"}); 
-    %>
+  <% if (signed_in?)%>
+    <%= content_tag :span, class: "timestamp perference " do %>
+      <% if (current_user==feed_item.author || feed_item.repostedBy(current_user)) %>
+        <%="\u21B7"%>
+      <% else %>
+        <%= link_to("\u21B7",repost_micropost_path(feed_item.id),  method: :post, remote: true, title:"repost"); %>
+      <%end %>
+      <span id=<%="#{feed_item.id}"%>>
+        <%=feed_item.repostedCount %>
+      </span>
+    <% end%>
+  <% end %>
+  <% if (current_user?(feed_item.user) || current_user.admin?)%>
+    <span class="perference">
+      <%= link_to('Delete', 
+        feed_item, method: :delete, 
+        data:{confirm: "Post \"#{truncate(feed_item.content,length:20)}\" will be removed."+
+        "This action is irreversible."+
+        " Are you willing to continue?"}); 
+      %>
+    </span>
   <% end %>
 </li>
+
