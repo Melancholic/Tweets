@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   #for not signed users
-  before_action :signed_in_user, only:[:index,:edit,:update, :destroy,:show, :following, :followers] # in app/helpers/session_helper.rb
+  before_action :signed_in_user, only:[:index,:edit,:update, :destroy,:show, :following, :followers, :verification, :sent_verification_mail] # in app/helpers/session_helper.rb
   before_action :verificated_user, only:[:index, :destroy,:show, :following, :followers]
   before_action :verificated_user_is_done, only: [:verification, :sent_verification_mail]
   #for signied users
@@ -165,7 +165,7 @@ private
   end
 
   def verificated_user_is_done
-    if (current_user.verificated?)
+    if ( current_user.verificated?)
       redirect_to(root_url);
     end
   end
