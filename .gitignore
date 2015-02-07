@@ -23,6 +23,8 @@ users.log
 *.tmp
 *.swp
 *.bup
+/.idea
+/public/assets/
 #/config/environment/*
 #/config/environment/production.rb
 #config/environments/production.rb
