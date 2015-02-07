@@ -15,11 +15,11 @@ describe Micropost do
   it{should respond_to(:replics_to)}
   its(:user) {should eq user}
   # Наличие полей для репоста
-  it{should respond_to(:repostedCount)}
-  it{should respond_to(:isRepost?)}
-  it{should respond_to(:getOriginal)}
+  it{should respond_to(:reposted_count)}
+  it{should respond_to(:repost?)}
+  it{should respond_to(:original)}
   it{should respond_to(:author)}
-  it{should respond_to(:repostedBy)}
+  it{should respond_to(:reposted_by?)}
   it{should respond_to(:reposts)}
 
 

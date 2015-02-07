@@ -28,41 +28,41 @@ class Micropost < ActiveRecord::Base
     where("user_id IN(#{followed_users}) OR user_id= (:user) OR id IN(#{replics_posts}) ", user: user);
   end
   
-  def repostedCount
+  def reposted_count
     self.reposts.count
   end
 
-  def isRepost?
+  def repost?
     !self.repost_id.nil?
   end
 
-  def getOriginal
-    if (self.isRepost?)
+  def original
+    if (self.repost?)
       Micropost.find(self.repost_id);
     else
       self
     end
   end
   def author
-    if(self.isRepost?)
-      User.find(self.getOriginal().user_id);
+    if(self.repost?)
+      User.find(self.original().user_id);
     else
       User.find(self.user_id);
     end
   end
 
-  def repostedBy(user)
+  def reposted_by?(user)
     self.reposts.map{|x| x.user_id}.include?(user.id)
   end
   
-  def self.makeRepost(user, original)
+  def self.make_repost(user, original)
    user = user.id if  user.instance_of? User;
     Micropost.create(user_id:user,
         content: original.content,
         repost_id:original.id
     );
   end
-  def makeRepost(user)
+  def make_repost(user)
    user = user.id if  user.instance_of? User;
     Micropost.create(user_id:user,
         content: self.content,
@@ -72,9 +72,9 @@ class Micropost < ActiveRecord::Base
   
   def repost_possible? (user)
     !(self.author==user ||\
-     self.repostedBy(user) || \
+     self.reposted_by?(user) || \
     self.user_id==user.id || \
-    self.getOriginal.repostedBy(user))
+    self.original.reposted_by?(user))
   end
 end
 

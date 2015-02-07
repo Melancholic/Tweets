@@ -58,13 +58,9 @@ class MicropostsController <ApplicationController
   def repost
     @post=Micropost.find(params[:id]);
     if(@post)
-      @orig_post=@post.getOriginal;
-      @repost=@orig_post.makeRepost(current_user); 
-#Micropost.create(user_id:current_user.id, 
-#       content: orig_post.content, 
-#        repost_id:orig_post.id);
+      @orig_post=@post.original;
+      @repost=@orig_post.make_repost(current_user); 
       respond_to do |format|
-          #view in app/views/relationships/destroy.js.erb
           format.html {redirect_to(:back)}
           format.js
         end

@@ -3,7 +3,7 @@
   <span class="user">
     <%= link_to feed_item.user.name, feed_item.user %>
   </span>
-  <% if feed_item.isRepost? %>
+  <% if feed_item.repost? %>
     <% style="quote"%>
     <span class="timestamp">
       <% @author=feed_item.author%>
@@ -26,7 +26,7 @@
         <%= link_to("\u21B7",repost_micropost_path(feed_item.id),  method: :post, remote: true, title:"repost", data:{from_path:@mypath}); %>
       <%end %>
       <span id=<%="#{feed_item.id}"%>>
-        <%=feed_item.getOriginal.repostedCount %>
+        <%=feed_item.original.reposted_count %>
       </span>
     <% end%>
   <% end %>
