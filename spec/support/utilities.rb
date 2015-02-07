@@ -1,4 +1,13 @@
 include ApplicationHelper
+#Capybara
+module Selectors
+  Capybara.add_selector(:linkhref) do
+    xpath {|href| ".//a[@href='#{href}']"}
+  end
+end
+
+#Capybara end
+
 def verificate (user, args={})
   if args[:no_capybara]
     puts  user.verification_user.verification_key;
