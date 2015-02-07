@@ -103,7 +103,8 @@ class User < ActiveRecord::Base
   end
 
   def reposts
-    self.microposts.map{|x| Micropost.find(x.repost_id) unless x.repost_id.nil?}.compact
+ #   self.microposts.map{|x| Micropost.find_by_id(x.repost_id) unless x.repost_id.nil?}.compact
+    self.microposts.map{|x| x unless x.repost_id.nil?}.compact
   end
 
 private

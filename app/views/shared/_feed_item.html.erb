@@ -5,10 +5,12 @@
   </span>
   <% if feed_item.isRepost? %>
     <% style="quote"%>
-   <span class="timestamp">
-   <% @author=feed_item.author%>
-     reposted by <%=link_to @author.name, @author %>
-   </span>
+    <span class="timestamp">
+      <% @author=feed_item.author%>
+      reposted by <%=link_to @author.name, @author %>
+    </span>
+   <%else%>
+
   <%end%>
   <%= content_tag :span, class: "content #{style}" do -%>
     <%=raw  make_preprocess(feed_item.content)%>
@@ -18,13 +20,13 @@
   </span>
   <% if (signed_in?)%>
     <%= content_tag :span, class: "timestamp perference " do %>
-      <% if (current_user==feed_item.author || feed_item.repostedBy(current_user)) %>
+      <% if (!feed_item.repost_possible?(current_user))%>
         <%="\u21B7"%>
       <% else %>
-        <%= link_to("\u21B7",repost_micropost_path(feed_item.id),  method: :post, remote: true, title:"repost"); %>
+        <%= link_to("\u21B7",repost_micropost_path(feed_item.id),  method: :post, remote: true, title:"repost", data:{from_path:@mypath}); %>
       <%end %>
       <span id=<%="#{feed_item.id}"%>>
-        <%=feed_item.repostedCount %>
+        <%=feed_item.getOriginal.repostedCount %>
       </span>
     <% end%>
   <% end %>

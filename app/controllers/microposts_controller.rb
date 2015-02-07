@@ -1,7 +1,7 @@
 class MicropostsController <ApplicationController
   before_action :signed_in_user, only: [:create, :destroy, :repost];
   before_action :correct_user,  only: :destroy;
-
+  before_action :correct_repost, only: :repost;
   def create
     @micropost=current_user.microposts.build(micropost_params);
     to_user=params[:micropost][:for_user];
@@ -21,7 +21,7 @@ class MicropostsController <ApplicationController
             @micropost.hashtag.push(tag);
           else
             render_msg(:error,"When you send an error  occurred (incorrect hashcode)!");
-           # render('static_pages/home');
+            # render('static_pages/home');
             return;
           end
         end
@@ -56,13 +56,16 @@ class MicropostsController <ApplicationController
   end
 
   def repost
-    orig_post=Micropost.find(params[:id]);
-    if(orig_post)
-      Micropost.create(user_id:current_user.id, 
-        content: orig_post.content, 
-        repost_id:orig_post.id);
+    @post=Micropost.find(params[:id]);
+    if(@post)
+      @orig_post=@post.getOriginal;
+      @repost=@orig_post.makeRepost(current_user); 
+#Micropost.create(user_id:current_user.id, 
+#       content: orig_post.content, 
+#        repost_id:orig_post.id);
       respond_to do |format|
           #view in app/views/relationships/destroy.js.erb
+          format.html {redirect_to(:back)}
           format.js
         end
     end
@@ -95,6 +98,11 @@ private
        render('static_pages/home'); 
       end
      flash[type]=text;
+  end
+
+  def correct_repost
+    post=Micropost.find(params[:id]);
+    redirect_to(:back) unless post.repost_possible?(current_user);
   end
 end
 

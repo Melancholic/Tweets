@@ -37,7 +37,11 @@ class Micropost < ActiveRecord::Base
   end
 
   def getOriginal
-    Micropost.find(self.repost_id) if self.isRepost?;
+    if (self.isRepost?)
+      Micropost.find(self.repost_id);
+    else
+      self
+    end
   end
   def author
     if(self.isRepost?)
@@ -49,6 +53,28 @@ class Micropost < ActiveRecord::Base
 
   def repostedBy(user)
     self.reposts.map{|x| x.user_id}.include?(user.id)
+  end
+  
+  def self.makeRepost(user, original)
+   user = user.id if  user.instance_of? User;
+    Micropost.create(user_id:user,
+        content: original.content,
+        repost_id:original.id
+    );
+  end
+  def makeRepost(user)
+   user = user.id if  user.instance_of? User;
+    Micropost.create(user_id:user,
+        content: self.content,
+        repost_id:self.id
+    );
+  end
+  
+  def repost_possible? (user)
+    !(self.author==user ||\
+     self.repostedBy(user) || \
+    self.user_id==user.id || \
+    self.getOriginal.repostedBy(user))
   end
 end
 

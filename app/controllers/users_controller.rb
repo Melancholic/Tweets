@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id]); 
     @microposts=@user.microposts.paginate(page: params[:page]);
     @micropost=current_user.microposts.build if(signed_in?);
-
+    @mypath = user_path(@user);
   end
 
   def index()
