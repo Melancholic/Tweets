@@ -3,12 +3,12 @@ Tweets
 ======================================
 Andrey Nagorny
 
-www: [anagorny.com](anagorny.com)
+www: [anagorny.com](http://anagorny.com)
  
 ======================================
-VERSION 1.0
+VERSION 1.2
 ======================================
-*Demo:* [tweets.anagorny.com](tweets.anagorny.com)
+*Demo:* [tweets.anagorny.com](http://tweets.anagorny.com)
 
 *Homepage:*
 ![img](screenshots/homepage.png)
@@ -19,13 +19,17 @@ VERSION 1.0
 *Tags cloud:*
 ![img](screenshots/TagsCloud.png)
 
+**Implemented in 1.2:**
+- E-mail verification;
+- Reset user password;
+- Repost-action for microposts ;
 
-**Implemented:**
+
+**Implemented in 1.0:**
 - Users with Gravatar;
 - Microposts;
 - Hashtags for microposts;
 - Users feed;
-- E-mail verification;
 
 
 
