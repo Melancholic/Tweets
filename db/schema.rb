@@ -33,10 +33,10 @@ ActiveRecord::Schema.define(version: 20150129112238) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "repost_id"
+    t.integer  "original_id"
   end
 
-  add_index "microposts", ["repost_id", "content", "user_id"], name: "index_microposts_on_repost_id_and_content_and_user_id", unique: true
+  add_index "microposts", ["original_id", "content", "user_id"], name: "index_microposts_on_original_id_and_content_and_user_id", unique: true
   add_index "microposts", ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at"
 
   create_table "relationships", force: true do |t|

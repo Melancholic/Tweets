@@ -66,7 +66,7 @@ class MicropostsController <ApplicationController
         end
     end
   end
-
+  
 
 private
 
@@ -91,6 +91,7 @@ private
   def render_msg (type, text)
      if(type==:error)
        @feed_items=[];
+       @top_post=Micropost.top_rated(1).first;
        render('static_pages/home'); 
       end
      flash[type]=text;

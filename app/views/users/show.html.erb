@@ -2,15 +2,10 @@
 <div class="row">
   <aside class ="span4">
     <section>
-      <h1>
-        <%= gravatar_for(@user) %>
-        <div><%= @user.name %> </div>
-      </h1>
-      <div> Total microposts: <%=@user.microposts.count %> </div>
+      <%= render 'shared/user_info', user:@user %>
     </section> 
     <section>
     <ul>
-      <li><%= render 'shared/stats' %></li>
       <li><%= render 'follow_form' if signed_in? %></li> 
     </ul>
     <%= render 'micropost_form', :for_user => @user if signed_in? and !current_user?(@user) %>
@@ -19,6 +14,7 @@
   <div class="span8">
    <% if @user.microposts.any? %>
       <h3> Total microposts: <%=@user.microposts.count %> </h3>
+      <%= will_paginate @microposts %>
       <ol class="microposts">
         <%=render @microposts%>
       </ol>

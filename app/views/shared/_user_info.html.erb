@@ -1,11 +1,12 @@
-<h1>
-<%= link_to gravatar_for(current_user, size: 100), current_user %>
- <div> <%= current_user.name %></div>
-</h1>
+<% @user||=current_user %>
+<big><b>
+<%= link_to gravatar_for(@user, size: 100), current_user %>
+ <div> <%= @user.name %></div>
+</b></big>
 <span>
-  <%= link_to("view my profile", current_user)%>
+  <%= link_to("view profile", @user)%>
 </span>
 <span id="mposts_count-feed">
-  <%= pluralize( current_user.microposts.count, "micropost")%>
+  <%= pluralize( @user.microposts.count, "micropost")%>
 </span>
-
+<%= render 'shared/stats' %>

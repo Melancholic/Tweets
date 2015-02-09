@@ -6,6 +6,7 @@ Tweets::Application.routes.draw do
   match '/about', to: 'static_pages#about',via: 'get'
   match '/contacts', to: 'static_pages#contacts',via: 'get'
   match '/signup', to: 'users#new',via: 'get' 
+  match '/tops', to: 'static_pages#tops',via: 'get' 
   #Определение подстраниц для ресурса
   resources :users do
      #add user/id/following and user/id/followers
@@ -32,6 +33,8 @@ Tweets::Application.routes.draw do
   resources :microposts do
     member do
       post :repost
+    end
+    collection do
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

@@ -127,34 +127,34 @@ describe "Repost tests" do
 #мой пост
       it" for my posts" do
         should_not have_link("repost", href: repost_micropost_path(my_post1), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_post1.id}", text:my_post1.reposted_count)    
+        should have_selector("li##{my_post1.id} span#count", text:my_post1.reposted_count)    
         should_not have_link("repost", href: repost_micropost_path(my_post2), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_post2.id}", text:my_post2.reposted_count)    
+        should have_selector("li##{my_post2.id} span#count", text:my_post2.reposted_count)    
         should_not have_link("repost", href: repost_micropost_path(my_post3), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_post3.id}", text:my_post3.reposted_count)    
+        should have_selector("li##{my_post3.id} span#count", text:my_post3.reposted_count)    
       end
 #мой репост
 
       it " for my reposts" do
         should_not have_link("repost", href: repost_micropost_path(my_repost_follow), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_repost_follow.id}", text:my_repost_follow.original.reposted_count)    
+        should have_selector("li##{my_repost_follow.id} span#count", text:my_repost_follow.original.reposted_count)    
         should_not have_link("repost", href: repost_micropost_path(my_repost_other), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_repost_other.id}", text:other_post.reposted_count)    
+        should have_selector("li##{my_repost_other.id} span#count", text:other_post.reposted_count)    
       end
 #чужой пост, с моим репостом
       it " for  others post with my repost " do
         should_not have_link("repost", href: repost_micropost_path(my_repost_other), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_repost_other.id}", text:other_post.reposted_count)    
+        should have_selector("li##{my_repost_other.id} span#count", text:other_post.reposted_count)    
       end
 #чужой репост, с моим репостом оригинала
       it " for  others repost with me reposted original" do
         should_not have_link("repost", href: repost_micropost_path(follow_other_repost), count: 1, text:"\u21B7" )
-        should have_selector("span##{follow_other_repost.id}", text:follow_other_repost.original.reposted_count)    
+        should have_selector("li##{follow_other_repost.id} span#count", text:follow_other_repost.original.reposted_count)    
       end
 #чужой репостмоего собщения
       it " for  others repost with me`s  original" do
         should_not have_link("repost", href: repost_micropost_path(follow_my_repost), count: 1, text:"\u21B7" )
-        should have_selector("span##{follow_my_repost.id}", text:my_post2.reposted_count)    
+        should have_selector("li##{follow_my_repost.id} span#count", text:my_post2.reposted_count)    
       end
 
 
@@ -163,13 +163,13 @@ describe "Repost tests" do
       it "for other post without my repost" do
         should have_link("repost", href: repost_micropost_path(follow_post_notr), count: 1, text:"\u21B7" )
         should have_content("reposted by #{follow_user.name}")
-        should have_selector("span##{follow_post_notr.id}", text:follow_post_notr.reposted_count)
+        should have_selector("li##{follow_post_notr.id} span#count", text:follow_post_notr.reposted_count)
       end
 #репост чужого  пользователя, без моего репоста оригинала
       it "for other repost without my repost original" do
         should have_link("repost", href: repost_micropost_path(follow_other_repost2), count: 1, text:"\u21B7" )
         should have_content("reposted by #{other_user.name}")
-        should have_selector("span##{follow_other_repost2.id}", text:follow_other_repost2.original.reposted_count)
+        should have_selector("li##{follow_other_repost2.id} span#count", text:follow_other_repost2.original.reposted_count)
       end
 
     it "should repost a micropost" do
@@ -177,7 +177,7 @@ describe "Repost tests" do
       should have_link("repost", href: repost_micropost_path(follow_other_repost2), count: 1, text:"\u21B7" )
       expect{find(:linkhref, repost_micropost_path(follow_other_repost2)).click}.to change(Micropost, :count).by(1) # find it spec/support/utilities.rb 
       should_not have_link("repost", href: repost_micropost_path(follow_other_repost2),  text:"\u21B7" )
-      should have_selector("span##{follow_other_repost2.id}", text:follow_other_repost2.original.reposted_count)
+      should have_selector("li##{follow_other_repost2.id} span#count", text:follow_other_repost2.original.reposted_count)
     end
   end
    describe "on profile page" do
@@ -196,19 +196,19 @@ describe "Repost tests" do
 #мой пост
       it" for my posts" do
         should_not have_link("repost", href: repost_micropost_path(my_post1), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_post1.id}", text:my_post1.reposted_count)    
+        should have_selector("li##{my_post1.id} span#count", text:my_post1.reposted_count)    
         should_not have_link("repost", href: repost_micropost_path(my_post2), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_post2.id}", text:my_post2.reposted_count)    
+        should have_selector("li##{my_post2.id} span#count", text:my_post2.reposted_count)    
         should_not have_link("repost", href: repost_micropost_path(my_post3), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_post3.id}", text:my_post3.reposted_count)    
+        should have_selector("li##{my_post3.id} span#count", text:my_post3.reposted_count)    
       end
 #мой репост
 
       it " for my reposts" do
         should_not have_link("repost", href: repost_micropost_path(my_repost_follow), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_repost_follow.id}", text:my_repost_follow.original.reposted_count)    
+        should have_selector("li##{my_repost_follow.id} span#count", text:my_repost_follow.original.reposted_count)    
         should_not have_link("repost", href: repost_micropost_path(my_repost_other), count: 1, text:"\u21B7" )
-        should have_selector("span##{my_repost_other.id}", text:my_repost_other.original.reposted_count)    
+        should have_selector("li##{my_repost_other.id} span#count", text:my_repost_other.original.reposted_count)    
       end
 
    end

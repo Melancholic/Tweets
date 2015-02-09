@@ -1,4 +1,4 @@
 $("#<%=@orig_post.id%>").replaceWith("<%= escape_javascript(render('shared/feed_item', feed_item:@orig_post)) %>")
 $("#<%=@post.id%>").replaceWith("<%= escape_javascript(render('shared/feed_item', feed_item:@post)) %>")
 $("#myfeed").prepend("<%= escape_javascript(render('shared/feed_item', feed_item:@repost)) %>")
-$("#mposts_count-feed").replaceWith("<%= pluralize( current_user.microposts.count, "micropost")%>")
+$("#mposts_count-feed").html("<%= pluralize( current_user.microposts.count, "micropost")%>")

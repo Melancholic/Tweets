@@ -8,7 +8,7 @@ class Micropost < ActiveRecord::Base
   #Ассоциация many2many
   has_and_belongs_to_many :hashtag;
   #reposts
-  has_many :reposts, class_name: "Micropost", foreign_key: "repost_id", dependent: :destroy;
+  has_many :reposts, class_name: "Micropost", foreign_key: "original_id", dependent: :destroy;
   #Проверка на валидность
   validates(:content, presence: true, length: {maximum: 140, minimum:3});
   validates(:user_id, presence: true);
@@ -33,12 +33,12 @@ class Micropost < ActiveRecord::Base
   end
 
   def repost?
-    !self.repost_id.nil?
+    !self.original_id.nil?
   end
 
   def original
     if (self.repost?)
-      Micropost.find(self.repost_id);
+      Micropost.find(self.original_id);
     else
       self
     end
@@ -59,15 +59,16 @@ class Micropost < ActiveRecord::Base
    user = user.id if  user.instance_of? User;
     Micropost.create(user_id:user,
         content: original.content,
-        repost_id:original.id
+        original_id:original.original.id
     );
   end
   def make_repost(user)
-   user = user.id if  user.instance_of? User;
-    Micropost.create(user_id:user,
-        content: self.content,
-        repost_id:self.id
-    );
+   #user = user.id if  user.instance_of? User;
+   # Micropost.create(user_id:user,
+   #     content: self.content,
+   #     original_id:self.id
+   # );
+    Micropost.make_repost(user,self);
   end
   
   def repost_possible? (user)
@@ -75,6 +76,11 @@ class Micropost < ActiveRecord::Base
      self.reposted_by?(user) || \
     self.user_id==user.id || \
     self.original.reposted_by?(user))
+  end
+
+  def self.top_rated(lim)
+    count_repost="SELECT COUNT(*) FROM microposts WHERE microposts.original_id=x.id";
+    Micropost.find_by_sql("SELECT * FROM microposts x  ORDER BY (#{count_repost}) DESC, created_at ASC  limit #{lim};");
   end
 end
 

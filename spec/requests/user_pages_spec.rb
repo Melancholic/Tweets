@@ -22,7 +22,7 @@ describe "UsersPages" do
   #Тесты пагинации
     describe "pagination" do
       before(:all){50.times{FactoryGirl.create(:user)}}
-      after(:all) { User.delete_all}
+      after(:all) { User.where("id > ?", User.tweets_user.id).delete_all}
 
       it { should have_selector('div.pagination') }
       it{should have_title('Users')}
@@ -38,13 +38,14 @@ describe "UsersPages" do
   # Тесты удаления администратором
   describe "as an admin user" do
     let(:admin) {FactoryGirl.create(:admin)}
+    let(:user) {FactoryGirl.create(:user)}
     before do
       sign_in admin
       verificate admin
       visit users_path
       puts page.title
     end
-    it {should have_link('Delete', href: user_path(User.first))}
+    it {should have_link('Delete', href: user_path(user))}
     it "should be  to delete another user" do
       expect do
         click_link('Delete', match: :first)

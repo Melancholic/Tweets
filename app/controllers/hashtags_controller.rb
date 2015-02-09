@@ -6,7 +6,7 @@ class HashtagsController < ApplicationController
   def index
     @hashtags=Hashtag.paginate(page: params[:page]);
     @hashtags_array=[];
-    Hashtag.all(limit:1000).each do |tag|
+    Hashtag.take(1000).each do |tag|
       map={};
       map["text"]=tag.text;
       map["weight"]=tag.micropost.count;

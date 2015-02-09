@@ -1,0 +1,40 @@
+<%#
+  feed_item - element (Micropost)
+  timeformat - format time view
+%>
+
+<% author= feed_item.author %>
+<% original= feed_item.original %>
+<%= render 'shared/timestamp', {style: timeformat,text: "Posted", object:feed_item} %>
+<% if (signed_in?)%>
+  <%= content_tag :span, class: "timestamp perference " do %>
+    <% if (!feed_item.repost_possible?(current_user))%>
+      <%="\u21B7"%>
+    <% else %>
+      <%= link_to("\u21B7",repost_micropost_path(feed_item.id),  method: :post, remote: true, title:"repost"); %>
+    <%end %>
+    <span id="count">
+      <%=original.reposted_count %>
+    </span>
+  <% end%>
+  <% if (current_user?(feed_item.user) || current_user.admin?)%>
+    <span class="perference">
+      <%= link_to("\u2718", 
+        feed_item, method: :delete, 
+        data:{confirm: "Post \"#{truncate(feed_item.content,length:20)}\" will be removed."+
+        "This action is irreversible."+
+        " Are you willing to continue?"},title:"Delete"); 
+      %>
+    </span>
+  <% end %>
+<% else %>
+  <%= content_tag :span, class: "timestamp perference " do %>
+    <%="\u21B7"%>
+    <span id="count">
+      <%=original.reposted_count %>
+    </span>
+  <% end%>
+<% end %>
+<span class="timestamp perference" style="float:right;" id="link-to">
+  <%= link_to '#', user_path(author, anchor: original.id, page: (author.micropost_ids.find_index(original.id)/Micropost.per_page+1)), title:"Original"%>
+</span>

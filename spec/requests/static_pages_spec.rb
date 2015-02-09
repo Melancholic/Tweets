@@ -3,9 +3,12 @@ require 'spec_helper'
 describe "StaticPages" do
   subject{ page }
     describe "Home page" do
-      before { visit root_path }
+      before do
+        visit root_path
+      end
       it { should have_content('home page') }
       it { should have_title(full_title("Home"))}
+      it { should have_content(User.tweets_user.microposts.first.content)}
       describe "for signed-in users" do
       let(:user) {FactoryGirl.create(:user)}
       before do  

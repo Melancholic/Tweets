@@ -45,6 +45,10 @@ class User < ActiveRecord::Base
                        :allow_blank => true,
                        :on => :update
   
+ 
+  # pagination
+  self.per_page = 10;
+ 
   def self.get_regex
      return /[@][a-zA-Zа-яА-Я0-9\_]+/;
   end
@@ -105,6 +109,10 @@ class User < ActiveRecord::Base
   def reposts
  #   self.microposts.map{|x| Micropost.find_by_id(x.repost_id) unless x.repost_id.nil?}.compact
     self.microposts.map{|x| x unless x.repost_id.nil?}.compact
+  end
+
+  def self.tweets_user
+    User.find_by_id(1);
   end
 
 private

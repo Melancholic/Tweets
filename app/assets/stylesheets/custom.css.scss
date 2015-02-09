@@ -235,9 +235,17 @@ footer {
     }
     .perference{
       border-left: 1px solid #e8e8e8;
-      border-right: 1px solid #e8e8e8;
+
       padding-left: 5px ;
       padding-right: 5px ;
+      &:first-child {
+        border-right: 0;
+        padding-top: 0;
+      }
+      &:last-child {
+        border: 0;
+        padding-top: 0;
+      }
     }
 
     .gravatar{
@@ -253,14 +261,16 @@ footer {
 
 /*Following/Followed stats*/
   .follows-stat{
+    display: inline;
     overflow: auto;
     a{
         float: left;
         padding: 0 10px;
         border-left: 0px solid $lighthGray;
         color: gray;
+        margin: 5px;
         &:first-child{
-            padding-left: 0;
+            padding-left: 5px;
             border: 0;
         }
     }
@@ -295,6 +305,51 @@ footer {
     }
   }
 
+.left-block{
+  margin: 10px 0 0 0 ;
+  border: 1px solid #e8e8e8;
+  border-bottom: 1px solid #e8e8e8;
+  border-radius: 8px 8px 0 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 0 0 0 0px;
+  .head{
+    color: $gray;
+    font-size: 1.4em;
+    background-color: #efefef; 
+    border-radius: 8px 8px 0 0;
+    padding: 8px 8px 8px 6px ;
+  }
+  .content{
+    vertical-align:top;
+    padding: 10px 10px 15px 15px;
+  }
+}
+
+.top-post-micropost{
+      list-style: none;
+      margin: 10px 10px 0 0;
+
+      li{
+          padding: 0 5px  0 10px;
+          border: 0;
+      }
+
+}
+
+
+.top_post{
+  .link-to-top{
+    float: right;
+    text-decoration: underline;
+  }
+  .post-content{
+    //color: #f00;
+    //  text-indent: 10px;
+    padding: 2px;
+    overflow: hidden;
+  }
+}
   .num{
     color: $lighthGray;
   }

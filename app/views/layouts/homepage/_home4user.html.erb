@@ -5,20 +5,18 @@
   </h2>
 </div>
 <div class="row">
-  <aside class=span4">
-
+  <div class=span4">
+    <aside>
     <section>
-      <%= render 'shared/user_info' %>
-    </section>  
-      
-    <section>
-      <%= render 'shared/stats' %>
+      <%=render 'shared/user_info' %>
     </section>
-
     <section>
       <%= render 'shared/micropost_form' %>
     </section>
-  </aside>
+    </aside> 
+    <%= render 'shared/home_left' %>
+  </div>
+
   <div class="span8">
     <h3> Your Feed</h3>
     <%=render 'shared/feed' %>
