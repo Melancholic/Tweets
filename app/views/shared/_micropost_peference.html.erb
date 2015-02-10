@@ -36,5 +36,5 @@
   <% end%>
 <% end %>
 <span class="timestamp perference" style="float:right;" id="link-to">
-  <%= link_to '#', user_path(author, anchor: original.id, page: (author.micropost_ids.find_index(original.id)/Micropost.per_page+1)), title:"Original"%>
+  <%= link_to '#', user_path(author, anchor: original.id, page: Micropost.page_for_user(author, original)), title:"Original"%>
 </span>
