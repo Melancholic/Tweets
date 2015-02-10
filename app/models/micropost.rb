@@ -82,5 +82,16 @@ class Micropost < ActiveRecord::Base
     count_repost="SELECT COUNT(*) FROM microposts WHERE microposts.original_id=x.id";
     Micropost.find_by_sql("SELECT * FROM microposts x  ORDER BY (#{count_repost}) DESC, created_at ASC  limit #{lim};");
   end
+
+  def self.page_for_user(user, post)
+    post=post.id if post.instance_of? Micropost;
+    ind=user.micropost_ids.find_index(post);
+    if(ind)
+      (ind/Micropost.per_page)+1;
+    else
+      0
+    end
+  end
+
 end
 
