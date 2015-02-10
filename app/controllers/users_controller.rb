@@ -79,6 +79,15 @@ class UsersController < ApplicationController
   render('show_follow');
  end
 
+#verification meil sent  function (step 1 in create)
+  def sent_verification_mail()
+    @user= User.find(params[:id]);
+    TweetsMailer.verification(@user).deliver;
+    flash[:success]="Mail to #{@user.email} has been sended!";
+    redirect_to(verification_user_url(@user));
+  end
+
+#verification step2
  def verification
   @user= User.find(params[:id]);
   @verification_key=@user.verification_key;
@@ -94,13 +103,6 @@ class UsersController < ApplicationController
     end
   end
  end
-
-  def sent_verification_mail()
-    @user= User.find(params[:id]);
-    TweetsMailer.verification(@user).deliver;
-    flash[:success]="Mail to #{@user.email} has been sended!";
-    redirect_to(verification_user_url(@user));
-  end
   
   def reset_password
     @title="Reset Password";

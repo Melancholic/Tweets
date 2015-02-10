@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   
   has_many(:reverse_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy);
   has_many(:followers, through: :reverse_relationships, source: :follower);
-  has_one :verification_user;
+  has_one :verification_user, dependent: :destroy;
   has_one :reset_password;
   #reposts
     #has_and_belongs_to_many :reposts, class_name: 'Micropost', foreign_key: 'user_id',  join_table: 'reposts';
@@ -28,8 +28,8 @@ class User < ActiveRecord::Base
     self.email=email.downcase;
   }
   after_create{
-    #self.verification_user=VerificationUser.create(user_id: 12, verificated:false);
-    self.verification_user=VerificationUser.create(user_id: self.id, verificated:false);
+    self.verificate!
+    #self.verification_user=VerificationUser.create(user_id: self.id, verificated:false);
   }
 
   before_create :create_remember_token;
@@ -84,6 +84,15 @@ class User < ActiveRecord::Base
 
   def verificated?()
     self.verification_user.verificated
+  end
+
+  def verificate!(flag=false)
+  unless (self.verification_user.nil?)
+    self.verification_user.update_attributes(verificated:flag)
+  else
+    self.verification_user=VerificationUser.create(user_id: self.id, verificated:flag);
+  end
+    self.verificated?
   end
 
   def verification_key()
