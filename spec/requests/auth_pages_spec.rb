@@ -111,6 +111,58 @@ subject {page}
             before{visit users_path}
             it{should have_title(full_title('Sign In'))};
           end
+          describe "send to Users index action" do
+            before{get users_path }
+            specify {expect(response).to redirect_to(signin_path) }
+          end
+          
+          describe "test access to another Users pages" do
+            let(:new_user){FactoryGirl.create(:user)}
+            let!(:p1){new_user.microposts.create(content: "some txt1")}
+            let!(:p2){new_user.microposts.create(content: "some txt2")}
+            let!(:p3){new_user.microposts.create(content: "some txt3")}
+            before do
+              new_user.follow!(User.tweets_user);
+              User.tweets_user.follow!(new_user);
+
+              visit user_path(new_user)
+            end
+            it "test users content" do
+              new_user.microposts.each do |item|
+                expect(page).to have_selector("li##{item.id}", text: item.content)
+                expect(page).to have_link("#",href:user_path(item.author,anchor: item.id, page: Micropost.page_for_user(item.author, item)))
+              end
+              should have_link(new_user.name,href:user_path(new_user))
+              should have_content(p1.content)
+              should have_content(p2.content)
+              should have_content(p3.content)
+            end
+            describe "test users link" do
+                it{should have_content(new_user.name)}
+                it{should have_content("#{new_user.microposts.count} microposts")}
+                it{should have_link("#{new_user.followed_users.count} following",href: following_user_path(new_user))}
+                it{should have_link("#{new_user.followers.count} followers", href: followers_user_path(new_user))}
+              it " test following page"do
+                find(:linkhref, following_user_path(new_user)).click
+                expect(page).to have_title(full_title('Following'));
+                expect(page).to have_content('Following');
+                new_user.followed_users.each do |item|
+                  expect(page).to have_selector("ul.users")
+                  expect(page).to have_link(item.name,href:user_path(item))
+                end
+              end
+              it " test followers page"do
+                visit user_path(new_user)
+                find(:linkhref, followers_user_path(new_user)).click
+                expect(page).to have_title(full_title('Followers'));
+                expect(page).to have_content('Followers');
+                new_user.followers.each do |item|
+                  expect(page).to have_selector("ul.users")
+                  expect(page).to have_link(item.name,href:user_path(item))
+                end
+              end
+            end
+          end
 
           describe " visit root path " do
             before {visit root_url}
@@ -148,15 +200,20 @@ subject {page}
           specify{expect(response).to redirect_to(signin_path)}
         end
 
-          #Тесты на недоступность к страницам  полписок/подписчиков
+          #Тесты на доступность к страницам  подписок/подписчиков
 
           describe "visiting the following page" do
             before {visit following_user_path(user)}
-            it{should have_title(full_title('Sign In'))}
+            it{should have_title(full_title('Following'))}
+            it{should have_content(user.name)}
+            it{should have_content(user.microposts.count)}
+
           end
           describe "visiting the followers page" do
             before {visit followers_user_path(user)}
-            it{should have_title(full_title('Sign In'))}
+            it{should have_title(full_title('Followers'))}
+            it{should have_content(user.name)}
+            it{should have_content(user.microposts.count)}
           end
         end
       end

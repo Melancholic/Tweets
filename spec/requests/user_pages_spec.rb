@@ -37,13 +37,12 @@ describe "UsersPages" do
 
   # Тесты удаления администратором
   describe "as an admin user" do
-    let(:admin) {FactoryGirl.create(:admin)}
-    let(:user) {FactoryGirl.create(:user)}
+    let!(:admin) {FactoryGirl.create(:admin)}
+    let!(:user) {FactoryGirl.create(:user)}
     before do
       sign_in admin
       verificate admin
       visit users_path
-      puts page.title
     end
     it {should have_link('Delete', href: user_path(user))}
     it "should be  to delete another user" do
@@ -74,9 +73,8 @@ describe "UsersPages" do
 
   let(:user) {FactoryGirl.create(:user)}
   before do
-    visit user_path(user)
+    visit signin_path
   end
-  it{should have_selector('div.alert.alert-notice')}
   it{ should have_title(full_title('Sign In'))}
 # тесты восстановления пароля
     let(:rst_lnk){"Forgot your password?"}
