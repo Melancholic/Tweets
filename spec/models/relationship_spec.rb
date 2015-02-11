@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Relationship do
   let (:follower) {FactoryGirl.create(:user)}
@@ -11,8 +11,8 @@ describe Relationship do
   describe "follower methods " do
     it {should respond_to(:follower)}
     it {should respond_to(:followed)}
-    its(:follower) {should eq follower}
-    its(:followed) {should eq followed}
+    it {expect(follower).to eq follower}
+    it {expect(followed).to eq followed}
   end
 
   describe "when followed id is not present" do

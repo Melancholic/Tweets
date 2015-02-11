@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "UsersPages" do
   subject{ page }
@@ -119,12 +119,12 @@ describe "UsersPages" do
             describe "in reset_password controller" do
                 let(:rp){user.make_reset_password(host:"127.0.0.1")}
               it{
-                rp.host.should ==("127.0.0.1")
-                user.should eq(ResetPassword.getUser(rp))
-                user.should eq(ResetPassword.getUser(user.reset_password_key))
-                user.should eq(rp.getUser)
-                user.reset_password.password_key.should eq(ResetPassword.getUser(rp).reset_password_key)
-                user.reset_password.password_key.should eq(rp.password_key)
+                expect(rp.host).to eq("127.0.0.1")
+                expect(user).to eq(ResetPassword.getUser(rp))
+                expect(user).to eq(ResetPassword.getUser(user.reset_password_key))
+                expect(user).to eq(rp.getUser)
+                expect(user.reset_password.password_key).to eq(ResetPassword.getUser(rp).reset_password_key)
+                expect(user.reset_password.password_key).to eq(rp.password_key)
               }
             describe "go to reset_password path with key param" do
               describe "in the future" do
@@ -169,7 +169,7 @@ describe "UsersPages" do
                   should have_field('user_password_confirmation');
                   should have_selector('div.alert.alert-error');
                   should have_content('Password confirmation doesn\'t match Password');
-                  should have_content('Password confirmation can\'t be blank');
+                  should have_content('Password is too short (minimum is 6 characters)');
                 }
               end
               describe "fill correct data" do
@@ -185,7 +185,7 @@ describe "UsersPages" do
                   should have_title(full_title('Home'));
                   should have_selector('div.alert.alert-succes');
                   should have_content('Updating your profile is success');
-                  user.should eq(user.authenticate(pass));
+                  expect(user).to eq(user.authenticate(pass));
                 }
               end
             end

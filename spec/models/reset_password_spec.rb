@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ResetPassword do
   before {@user= FactoryGirl.create(:user); 

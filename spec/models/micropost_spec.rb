@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Micropost do
   let(:user){FactoryGirl.create(:user)}
@@ -13,7 +13,7 @@ describe Micropost do
   #Тест наличие связи с  Users
   it{should respond_to(:user)}
   it{should respond_to(:replics_to)}
-  its(:user) {should eq user}
+  it{expect(user).to eq user}
   # Наличие полей для репоста
   it{should respond_to(:reposted_count)}
   it{should respond_to(:repost?)}

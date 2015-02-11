@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Hashtag do
   let(:msg){FactoryGirl.create(:micropost)}

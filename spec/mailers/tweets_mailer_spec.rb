@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe TweetsMailer do
   describe "verification" do
@@ -6,9 +6,9 @@ describe TweetsMailer do
     let(:mail) { TweetsMailer.verification(user) }
 
     it "renders the headers" do
-      mail.subject.should eq("Verification your e-mail")
-      mail.to.should eq([user.email])
-      mail.from.should eq(["tweets@anagorny.com"])
+      expect(mail.subject).to eq("Verification your e-mail")
+      expect(mail.to).to eq([user.email])
+      expect(mail.from).to eq(["tweets@anagorny.com"])
     end
 
     #it "renders the body" do
@@ -21,9 +21,9 @@ describe TweetsMailer do
     let(:mail) { TweetsMailer.verificated(user) }
 
     it "renders the headers" do
-      mail.subject.should eq("Welcome to Tweets Project!")
-      mail.to.should eq([user.email])
-      mail.from.should eq(["tweets@anagorny.com"])
+      expect(mail.subject).to eq("Welcome to Tweets Project!")
+      expect(mail.to).to eq([user.email])
+      expect(mail.from).to eq(["tweets@anagorny.com"])
     end
 
     #it "renders the body" do

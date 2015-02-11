@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe User do
   before { @user = User.new(name: "Example", email:"user@example.com", 
@@ -39,15 +39,15 @@ describe User do
       @user.follow!(other_user);
     end
     it {should be_following(other_user)}
-    its(:followed_users){should include(other_user)}
-    describe "dollowed user" do
+    it {expect(@user.followed_users).to include(other_user)}
+    describe "followed user" do
       subject{other_user}
-      its(:followers){should include(@user)}
+      it {expect(other_user.followers).to include(@user)}
     end
     describe "end unfollowing" do
       before {@user.unfollow!(other_user)}
         it {should_not be_following(other_user)}
-        its(:followed_users){should_not include(other_user)}
+        it {expect(@user.followed_users).not_to include(other_user)}
     end
   end
 
@@ -177,7 +177,7 @@ describe User do
     describe "with invalid password" do
       let(:user_for_invalid_passwd){found_user.authenticate("invalid")}
       it { should_not eq user_for_invalid_passwd }
-      it {expect(user_for_invalid_passwd).to be_false}
+      it {expect(user_for_invalid_passwd).to eq false}
     end
   end
 
@@ -189,9 +189,10 @@ describe User do
 
 #Тесты для сессии
     describe "remember token is valid" do
+    subject(:user){@user}
       #it {should respond_to (:remember_token)}
       before {@user.save}
-        its(:remember_token) {should_not be_blank}
+        it {expect(@user.remember_token).not_to eq be_blank}
     end
 # Тесты ассоциации с micropost
     describe "micropost associations" do
@@ -227,13 +228,12 @@ describe User do
             @user.follow!(followed_user)
             3.times{followed_user.microposts.create!(content: "Text text Text")}
           end
-
-          its(:feed){should include(newer_micropost)}
-          its(:feed){should include(older_micropost)}
-          its(:feed){should_not include(unfollowed_post)}
-          its(:feed) do
+          it{expect(@user.feed).to include(newer_micropost)}
+          it{expect(@user.feed).to include(older_micropost)}
+          it{expect(@user.feed).not_to include(unfollowed_post)}
+          it do
             followed_user.microposts.each do |post|
-              should include(post)
+              expect(@user.feed).to include(post)
             end
           end
         end
