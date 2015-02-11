@@ -33,7 +33,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome to Tweets!";
       sign_in @user;
       redirect_to(@user);
-      TweetsMailer.verification(@user).deliver;
+      TweetsMailer.verification(@user).deliver_now;
     else
       render 'new';
     end
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
 #verification meil sent  function (step 1 in create)
   def sent_verification_mail()
     @user= User.find(params[:id]);
-    TweetsMailer.verification(@user).deliver;
+    TweetsMailer.verification(@user).deliver_now;
     flash[:success]="Mail to #{@user.email} has been sended!";
     redirect_to(verification_user_url(@user));
   end
@@ -94,7 +94,7 @@ class UsersController < ApplicationController
   if(params[:key])
     if(params[:key]==@user.verification_key)
       @user.verification_user.update(verification_key:"",verificated:true);
-      TweetsMailer.verificated(@user).deliver;
+      TweetsMailer.verificated(@user).deliver_now;
       flash[:success]="User #{@user.name} has been verificated!";
       redirect_to(user_path(@user));
     else
@@ -130,7 +130,7 @@ class UsersController < ApplicationController
       #Make key for reset
       user.make_reset_password(host:host);
       #user.reset_password= ResetPassword.create(user_id: user.id, host:host);
-      TweetsMailer.recived_email_for_passrst(user).deliver;
+      TweetsMailer.recived_email_for_passrst(user).deliver_now;
       redirect_to(root_url);
     else
       flash[:error]="User with e-mail: #{params[:email]} not found!";
@@ -143,7 +143,7 @@ class UsersController < ApplicationController
    if  (@user.update_attributes(user_params()))
       flash[:succes] = "Updating your profile is success"
       redirect_to(root_url);
-      TweetsMailer.send_new_pass_notification(@user).deliver;
+      TweetsMailer.send_new_pass_notification(@user).deliver_now;
       @user.reset_password.destroy;
     else
       @title="Reset Password";
