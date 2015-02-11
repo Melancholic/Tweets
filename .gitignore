@@ -16,6 +16,8 @@
 /tmp
 .secret
 /config/database.yml
+/config/secrets.yml
+
 /config/initializers/setup_mail.rb
 *~
 users.log 
