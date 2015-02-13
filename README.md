@@ -6,12 +6,15 @@ Andrey Nagorny
 www: [anagorny.com](http://anagorny.com)
  
 ======================================
-VERSION 1.2
+VERSION 1.3
 ======================================
 *Demo:* [tweets.anagorny.com](http://tweets.anagorny.com)
 
-*Homepage:*
-![img](screenshots/homepage.png)
+*Homepage for guest:*
+![img](screenshots/homepage-guest.png)
+
+*Homepage for user:*
+![img](screenshots/homepage-user.png)
 
 *Profile page:*
 ![img](screenshots/profile.png)
@@ -19,10 +22,16 @@ VERSION 1.2
 *Tags cloud:*
 ![img](screenshots/TagsCloud.png)
 
+**Implemented in 1.3:**
+- Rating for Miroposts (on how many repost);
+- Update Home page view;
+- Upgrade application to rails 4.2
+
+
 **Implemented in 1.2:**
 - E-mail verification;
 - Reset user password;
-- Repost-action for microposts ;
+- Repost-action for microposts;
 
 
 **Implemented in 1.0:**
