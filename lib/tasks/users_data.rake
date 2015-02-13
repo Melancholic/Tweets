@@ -8,7 +8,7 @@ namespace :db do
   end
 end
 
-def make_users(size=75)
+def make_users(size=30)
     File.open(File.join("log/", 'users.log'), 'a+') do |f|
       size.times do |n|
         usr=User.new;
@@ -31,7 +31,7 @@ def make_users(size=75)
     end
 end
 
-def make_tweets(size=10)
+def make_tweets(size=30)
   users=User.all;
   size.times do
     tag="tag"+Random.rand(5).to_s;
@@ -43,11 +43,11 @@ def make_tweets(size=10)
 
 end
 
-def make_relationships(size=50)
+def make_relationships(size=15)
   users=User.all;
   user=users.first;
-  followed_usrs= users[2..50];
-  followers=users[3..40];
+  followed_usrs= users[2..25];
+  followers=users[3..20];
   followed_usrs.each do |followed|
     user.follow!(followed);
   end
