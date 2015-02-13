@@ -43,11 +43,13 @@ def make_tweets(size=30)
 
 end
 
-def make_relationships(size=15)
+def make_relationships()
   users=User.all;
   user=users.first;
   followed_usrs= users[2..25];
   followers=users[3..20];
+  followed_usrs.delete(User.tweets_user);
+  followers.delete(User.tweets_user);
   followed_usrs.each do |followed|
     user.follow!(followed);
   end
