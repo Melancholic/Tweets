@@ -6,7 +6,7 @@
        <%=link_to "Top list", "#" %>
        </span>
   </div>
-      <ul class="top-post-micropost">
+      <ul class="top-post-micropost" id="top-posts">
           <%= render 'shared/feed_item', feed_item: @top_post, timeformat: {} %>  
       </ul>
 </div>

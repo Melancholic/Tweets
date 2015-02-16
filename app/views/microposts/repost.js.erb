@@ -1,4 +1,5 @@
-$("#<%=@orig_post.id%>").replaceWith("<%= escape_javascript(render('shared/feed_item', feed_item:@orig_post)) %>")
-$("#<%=@post.id%>").replaceWith("<%= escape_javascript(render('shared/feed_item', feed_item:@post)) %>")
+$(".microposts").find("#<%=@orig_post.id%>").replaceWith("<%= escape_javascript(render('shared/feed_item', feed_item:@orig_post)) %>")
+$(".microposts").find("#<%=@post.id%>").replaceWith("<%= escape_javascript(render('shared/feed_item', feed_item:@post)) %>")
+$(".top-post-micropost").find("#<%=@orig_post.id%>").replaceWith("<%= escape_javascript(render('shared/feed_item', feed_item:@orig_post,  timeformat:{})) %>")
 $("#myfeed").prepend("<%= escape_javascript(render('shared/feed_item', feed_item:@repost)) %>")
 $("#mposts_count-feed").html("<%= pluralize( current_user.microposts.count, "micropost")%>")
