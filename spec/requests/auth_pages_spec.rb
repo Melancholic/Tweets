@@ -130,7 +130,7 @@ subject {page}
             it "test users content" do
               new_user.microposts.each do |item|
                 expect(page).to have_selector("li##{item.id}", text: item.content)
-                expect(page).to have_link("#",href:user_path(item.author,anchor: item.id, page: Micropost.page_for_user(item.author, item)))
+                expect(page).to have_link("#",href:user_path(item.author,anchor: "post#{item.id}", page: Micropost.page_for_user(item.author, item)))
               end
               should have_link(new_user.name,href:user_path(new_user))
               should have_content(p1.content)

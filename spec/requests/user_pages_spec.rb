@@ -348,6 +348,13 @@ end
       it{should have_content(m1.content)}
       it{should have_content(m2.content)}
       it{should have_content(user.microposts.count)}
+      it "feed" do
+        user.microposts.each do |item|
+         expect(page).to have_selector("li##{item.id}", text: item.content)
+         expect(page).to have_link("#",href:user_path(item.author,anchor: "post#{item.id}", page: Micropost.page_for_user(item.author, item))) 
+        end
+      end
+
      end
   end
 

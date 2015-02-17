@@ -62,6 +62,7 @@ describe "StaticPages" do
       it "should render the users feed" do
         user.feed.each do |item|
           expect(page).to have_selector("li##{item.id}", text: item.content)
+          expect(page).to have_link("#",href:user_path(item.author,anchor: "post#{item.id}", page: Micropost.page_for_user(item.author, item))) 
         end
       end
       describe "follower/following counts" do
