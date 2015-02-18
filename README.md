@@ -40,7 +40,13 @@ VERSION 1.3
 - Hashtags for microposts;
 - Users feed;
 
+======================================
+**In the repository configuration files are missing:**
 
+- /config/database.yml
+- /config/secrets.yml
+- /config/initializers/setup_mail.rb
+- /db/seeds.rb
 
 ======================================
 
